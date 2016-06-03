@@ -4,6 +4,6 @@ import sbt._
 
 object MosaicoKeys {
 
-  lazy val mosaico = taskKey[Unit]("mosaico")
+  lazy val dki = taskKey[Unit]("dki")
 
 }

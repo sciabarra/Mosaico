@@ -1,8 +1,25 @@
-name := "mosaico"
+lazy val root = project.in(file("."))
 
-organization := "com.mosaico"
+name := "root"
 
-version := "0.1"
+organization in ThisBuild := "mosaico"
 
-val base = project.in(file("base")).
-  enablePlugins(DockerPlugin,MosaicoPlugin)
+version in ThisBuild := "1"
+
+val alpine = project.in(file("alpine")).enablePlugins(MosaicoPlugin)
+
+addCommandAlias("docker",
+  """; python/docker
+     ; node/docker
+     ; builder/docker
+  """.replace('\n', ' '))
+
+imageNames in docker in ThisBuild := Seq(
+  ImageName(s"${organization.value}/${name.value}:${version.value}")
+)
+
+addCommandAlias("r", "reload")
+
+addCommandAlias("rd", ";reload ;docker")
+
+addCommandAlias("dki", "eval \"docker images !\"")
