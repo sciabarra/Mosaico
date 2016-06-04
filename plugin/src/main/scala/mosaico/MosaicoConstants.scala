@@ -1,3 +1,3 @@
-package mosaico.plugin
+package mosaico
 
 object MosaicoConstants

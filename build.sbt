@@ -11,15 +11,14 @@ val alpine = project.in(file("alpine")).enablePlugins(MosaicoPlugin)
 addCommandAlias("docker",
   """; python/docker
      ; node/docker
-     ; builder/docker
+     ; abuild/docker
   """.replace('\n', ' '))
-
-imageNames in docker in ThisBuild := Seq(
-  ImageName(s"${organization.value}/${name.value}:${version.value}")
-)
 
 addCommandAlias("r", "reload")
 
 addCommandAlias("rd", ";reload ;docker")
 
-addCommandAlias("dki", "eval \"docker images !\"")
+//addCommandAlias("dki", "eval \"docker images !\"")
+scalacOptions += "-feature"
+
+val plugin = project.in(file("plugin"))

@@ -1,4 +1,4 @@
-name := "mosaico-plugin"
+name := "sbt-plugin"
 
 organization := "com.mosaico"
 
