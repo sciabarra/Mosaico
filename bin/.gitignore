@@ -1,3 +1,7 @@
+<<<<<<< HEAD
 kubectl
 helmc
 kubectl.exe
+=======
+sbt-launch.jar
+>>>>>>> ScalaGoodies/esbt
