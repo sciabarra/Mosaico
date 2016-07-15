@@ -1,7 +1,5 @@
-<<<<<<< HEAD
 kubectl
 helmc
-kubectl.exe
-=======
+minikube
 sbt-launch.jar
->>>>>>> ScalaGoodies/esbt
+*.exe
