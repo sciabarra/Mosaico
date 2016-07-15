@@ -1,6 +1,5 @@
-# Mosaico
+# Charts by Sciabarra
 
-A mosaic of docker components, built with Docker and SBT.
-
+Charts for helmc including code for building the containers.
 
 
