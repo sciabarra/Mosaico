@@ -7,6 +7,6 @@ lazy val alpine = project.in(file("..")).enablePlugins(MosaicoPlugin)
 dockerfile in docker := {
   new Dockerfile {
     from((docker in alpine).value.toString)
-    runRaw(s"apk add python py-pip")
+    runRaw(s"apk add python py-pip sqlite")
   }
 }

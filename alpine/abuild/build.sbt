@@ -17,7 +17,6 @@ dockerfile in docker := {
          |chown packager:packager /home/packager/.abuild/ &&
          |echo "packager    ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers &&
          |yes | su - packager -c 'abuild-keygen -a -i ; echo PACKAGER_PRIVKEY=\"/home/packager/y\" >/home/packager/.abuild/abuild.conf'
-         |echo
          |""".stripMargin('|').replace('\n', ' '))
 
     user("packager")
