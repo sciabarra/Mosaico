@@ -6,7 +6,7 @@ dockerfile in docker := {
   val buildSh = (baseDirectory.value / "build.sh")
   new Dockerfile {
     from((docker in alpine_s6).value.toString)
-    runRaw("apk -U add alpine-sdk bash python python-dev py-pip nodejs nodejs-dev")
+    runRaw("apk -U add alpine-sdk bash python python-dev py-pip nodejs nodejs-dev file")
     runRaw(
       s"""
          |adduser -D packager &&

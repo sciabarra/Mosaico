@@ -1,4 +1,4 @@
-name := "charts"
+name := "sbt-docker-extras"
 
 organization := "com.sciabarra"
 

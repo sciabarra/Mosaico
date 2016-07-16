@@ -5,7 +5,7 @@ val alpine_node = project.in(file("..")/"alpine-node").enablePlugins(ChartsPlugi
 dockerfile in docker := {
   new Dockerfile {
     from((docker in alpine_node).value.toString)
-    runRaw(s"apk add python py-pip sqlite")
-    runRaw("""pip install "django>=1.9" django-extensions""")
+    runRaw(s"apk add python py-pip sqlite py-psycopg2")
+    runRaw("""pip install --upgrade "django>=1.9" django-extensions setuptools""")
   }
 }

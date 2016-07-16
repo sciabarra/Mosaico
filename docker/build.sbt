@@ -15,3 +15,5 @@ val alpine_abuild = project.in(file("alpine-abuild")).enablePlugins(ChartsPlugin
 val alpine_node = project.in(file("alpine-node")).enablePlugins(ChartsPlugin)
 
 val alpine_django = project.in(file("alpine-django")).enablePlugins(ChartsPlugin)
+
+val alpine_django_websocket = project.in(file("alpine-django-websocket")).enablePlugins(ChartsPlugin)

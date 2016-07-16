@@ -24,7 +24,7 @@ trait AlpineSettings {
           s"""docker run
               | -v ${inFile.getAbsolutePath}:/home/packager/${in}
               | -v ${base}/target:/home/packager/packages
-              | mosaico/abuild:latest ${in} ${out}
+              | sciabarra/alpine-abuild:1 ${in} ${out}
               |""".stripMargin.replace('\n', ' ')
 
         if (!outFile.exists) {
