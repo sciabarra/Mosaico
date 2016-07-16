@@ -1,13 +1,11 @@
-name := "abuild"
+imageNames in docker := Seq(ImageName(s"sciabarra/alpine-abuild:1"))
 
-imageNames in docker in ThisBuild := Seq(ImageName(s"${organization.value}/${name.value}:${version.value}"))
-
-lazy val alpine = project.in(file("..") / "alpine").enablePlugins(MosaicoPlugin)
+val alpine_s6 = project.in(file("..")/"alpine-s6").enablePlugins(ChartsPlugin)
 
 dockerfile in docker := {
   val buildSh = (baseDirectory.value / "build.sh")
   new Dockerfile {
-    from((docker in alpine).value.toString)
+    from((docker in alpine_s6).value.toString)
     runRaw("apk -U add alpine-sdk bash python python-dev py-pip nodejs nodejs-dev")
     runRaw(
       s"""
@@ -18,7 +16,6 @@ dockerfile in docker := {
          |echo "packager    ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers &&
          |yes | su - packager -c 'abuild-keygen -a -i ; echo PACKAGER_PRIVKEY=\"/home/packager/y\" >/home/packager/.abuild/abuild.conf'
          |""".stripMargin('|').replace('\n', ' '))
-
     user("packager")
     copy(buildSh, "/home/packager/")
     entryPoint("/bin/bash", "/home/packager/build.sh")

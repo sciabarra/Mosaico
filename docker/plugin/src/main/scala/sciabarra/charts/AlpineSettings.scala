@@ -1,11 +1,11 @@
-package mosaico
+package sciabarra.charts
 
 import sbt._, Keys._
 
 trait AlpineSettings {
   this: AutoPlugin =>
 
-  import MosaicoKeys._
+  import ChartsKeys._
 
   val abuildTask = abuild := {
     val args: Seq[String] = Def.spaceDelimited("<arg>").parsed
@@ -26,7 +26,6 @@ trait AlpineSettings {
               | -v ${base}/target:/home/packager/packages
               | mosaico/abuild:latest ${in} ${out}
               |""".stripMargin.replace('\n', ' ')
-
 
         if (!outFile.exists) {
           println(cmd)

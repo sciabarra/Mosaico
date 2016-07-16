@@ -22,4 +22,7 @@ if ! test -e $HERE/kubectl ; then
   curl "$URL" >$HERE/kubectl$EXT
   chmod +x $HERE/kubectl$EXT
 fi
-test -x "$HERE/kubectl$EXT" || ( echo "Cannot download kubectl"; exit 1)
+if test -x "$HERE/kubectl$EXT" 
+then sudo cp $HERE/kubectl$EXT /usr/local/bin/
+else echo "Cannot download kubectl"
+fi

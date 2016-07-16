@@ -1,19 +1,19 @@
-package mosaico
+package sciabarra.charts
 
 import sbt._, Keys._
 import sbt.plugins.JvmPlugin
 import sbtdocker.DockerPlugin
 
-object MosaicoPlugin
+object ChartsPlugin
   extends AutoPlugin
   with DockerSettings
   with AlpineSettings {
 
   override def requires = JvmPlugin && DockerPlugin
 
-  val autoImport = MosaicoKeys
+  val autoImport = ChartsKeys
 
-  import MosaicoKeys._
+  import ChartsKeys._
 
   override val projectSettings =
     dockerSettings ++ alpineSettings

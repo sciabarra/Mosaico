@@ -21,4 +21,7 @@ if ! test -e $HERE/$CMD ; then
   curl "$URL" >$HERE/$CMD
   chmod +x $HERE/$CMD
 fi
-test -x "$HERE/$CMD" || ( echo "Cannot download $CMD"; exit 1)
+if test -x "$HERE/$CMD" 
+then sudo cp "$HERE/$CMD" /usr/local/bin/
+else echo "Cannot download $CMD"
+fi

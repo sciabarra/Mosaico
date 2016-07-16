@@ -20,4 +20,7 @@ if ! test -e $HERE/minikube ; then
   curl "$URL" >$HERE/minikube
   chmod +x $HERE/minikube
 fi
-test -x "$HERE/minikube" || ( echo "Cannot download minikube"; exit 1)
+if test -x "$HERE/minikube" 
+then sudo cp $HERE/minikube /usr/local/bin/
+else echo "Cannot download minikube"
+fi
