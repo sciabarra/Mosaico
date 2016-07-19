@@ -1,0 +1,16 @@
+django:
+  hostname: django
+  domainname: loc
+  image: sciabarra/alpine-django:1
+  expose: [ "8000" ]
+  ports:
+    - "8001:8001"
+
+nginx:
+  hostname: nginx
+  domainname: loc
+  image: sciabarra/alpine-nginx:1
+  links:
+    - "django:django.loc"
+  ports:
+    - "8080:80"
