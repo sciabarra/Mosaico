@@ -31,11 +31,11 @@ http {
     }
 
     location /static {
-      root /home/static;
+      root /home;
     }
 
     location /media {
-      root /home/media;
+      root /home;
     }
 
     location / {
