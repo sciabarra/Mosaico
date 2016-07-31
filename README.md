@@ -1,5 +1,10 @@
-# Charts by Sciabarra
+# Mosaico by Sciabarra
 
-Charts for helmc including code for building the containers.
+(Unstable work in progress...)
+
+Scala build kit. Currently some docker images built with sbt.
+
+Planned to be a complete cloud-based kit including kubernetes and jenkins.
+
 
 
