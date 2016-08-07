@@ -1,5 +1,6 @@
 package mosaico.docker
 
+import akka.util.ByteString
 import sbt._, Keys._
 import java.net._, java.io._
 
@@ -26,63 +27,62 @@ trait DownloadSettings {
     else None
   }
 
-  def downloadUrl(url: URL, file: File): Option[File] = {
-    println(s"downloadUrl: ${url} ${file}")
-    val request = HttpRequest(uri = url.toString)
-    val response = Http().singleRequest(request)
-    println(response)
+  private var total: Double = 0
+  private var counter: Long = 0
+  private var nextCheck: Long = 0
 
-    val pr = Promise[Option[File]]
-    response.onComplete {
-      case Failure(err) =>
-        println(s"failed request: ${err}")
-        pr success None
-      case Success(res) =>
-        println(res.entity.getClass.toString)
+  def initDownload(len: Long): Unit = {
+    counter = 0
+    total = len
+    nextCheck = System.currentTimeMillis() - CHECK_INTERVAL
+  }
 
-        res.entity.
-          withSizeLimit(SIZE_LIMIT).
-          toStrict(TIME_LIMIT) onComplete {
-          case Failure(err) =>
-            println(s"failed stricting response ${err}")
-          case Success(ent) =>
-            println(ent)
-            val total = ent.contentLengthOption.getOrElse(-1l).toDouble
-            println(s"total ${total}")
-            if (file.exists()) {
-              println(s"deleting ${file}")
-              file.delete()
-            }
-
-            val stream = ent.dataBytes
-            val sink = FileIO.toFile(file)
-
-            var counter = 0l
-            var megaCounter = 0l
-            stream.map {
-              e =>
-                counter += e.size
-                /*
-              val m = counter / MEGA
-              if( m > megaCounter) {
-                megaCounter = m
-                print(if(total>=0) {
-                  "%02.2f%".format(counter/total)
-                } else "")
-                println(s" ${megaCounter}m ")
-              }*/
-                println(counter)
-                e
-            }.runWith(sink).value match {
-              case None =>
-                pr success Some(file)
-              case Some(err) =>
-                println(s"failed writing: ${err}")
-                pr success None
-            }
-        }/**/
+  def progressDownload(bs: ByteString): ByteString = {
+    counter += bs.size
+    val now = System.currentTimeMillis()
+    if (now > nextCheck) {
+      nextCheck += CHECK_INTERVAL
+      print(if (total >= 0) {
+        "%02.2f%%".format(counter / total)
+      } else "")
+      println(s" ${counter.toLong / MEGA}/${total.toLong / MEGA}")
     }
-    Await.result(pr.future, TIME_LIMIT)
+    bs
+  }
+
+  def downloadUrl(url: URL, file: File): Option[File] = {
+
+    //println(s"downloadUrl: ${url} ${file}")
+
+    val req = HttpRequest(uri = url.toString)
+    val res = waitFor(Http().singleRequest(req))
+
+    println(res)
+
+    val ent = res.entity
+    val len = ent.contentLengthOption.getOrElse(-1l)
+    initDownload(len)
+
+    val toDownload = if (file.exists()) {
+      if (len > 0 && file.length() == len) {
+        println("file already downloaded")
+        false
+      } else {
+        file.delete()
+        println(s"removed ${file}")
+        true
+      }
+    } else true
+
+    if (toDownload) {
+      val out = new FileOutputStream(file).getChannel
+      waitFor(ent.withSizeLimit(SIZE_LIMIT).
+        dataBytes.
+        map(progressDownload).
+        runForeach(bs => out.write(bs.asByteBuffer))
+      )
+    }
+    Some(file)
   }
 
   def usage = {

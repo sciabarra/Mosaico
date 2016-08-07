@@ -19,6 +19,7 @@ object AkkaCommon {
   final val GIGA = MEGA * 1000
   final val SIZE_LIMIT = 100 * GIGA
   final val TIME_LIMIT = 1.hour
+  final val CHECK_INTERVAL = 5 * 1000
 
   val classLoader = getClass.getClassLoader
   val config = ConfigFactory.load(classLoader)
