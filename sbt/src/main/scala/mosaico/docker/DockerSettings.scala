@@ -1,11 +1,11 @@
-package sciabarra.charts
+package mosaico.docker
 
 import sbt._, Keys._
 
 trait DockerSettings {
   this: AutoPlugin =>
 
-  import ChartsKeys._
+  import MosaicoDockerKeys._
 
   val dkiTask = dki := {
     "docker images --format '{{.ID}} {{.Repository}}:{{.Tag}}'" !

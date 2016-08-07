@@ -1,0 +1,48 @@
+<configuration>
+
+    <!--
+    For debug copy this file to logback-test.xml and edit it
+    -->
+
+    <!-- log in a file
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${user.dir}/logs/agilesites.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <fileNamePattern>/logs/mylog.%i.log.zip</fileNamePattern>
+            <minIndex>1</minIndex>
+            <maxIndex>3</maxIndex>
+        </rollingPolicy>
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <maxFileSize>5MB</maxFileSize>
+        </triggeringPolicy>
+        <encoder>
+            <pattern>%date{YYYY-MM-dd HH:mm:ss} %level [%thread] %logger{10} [%file:%line] %msg%n</pattern>
+        </encoder>
+    </appender>
+    -->
+
+    <!-- log to lilith
+    <appender name="Lilith" class="ch.qos.logback.classic.net.SocketAppender">
+        <RemoteHost>localhost</RemoteHost>
+        <Port>4560</Port>
+        <ReconnectionDelay>170</ReconnectionDelay>
+        <IncludeCallerData>true</IncludeCallerData>
+    </appender>
+    -->
+
+    <!-- log to console -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- send logger to file, console, logger
+    <logger name="agilesitesng" level="DEBUG"
+            additivity="true">
+        <appender-ref ref="Lilith"/>
+        <appender-ref ref="FILE"/>
+    </logger>
+    -->
+
+</configuration>

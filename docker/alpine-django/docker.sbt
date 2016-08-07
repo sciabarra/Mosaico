@@ -1,6 +1,6 @@
 imageNames in docker := Seq(ImageName(s"sciabarra/alpine-django:1"))
 
-val alpine_s6 = project.in(file("..")/"alpine-s6").enablePlugins(ChartsPlugin)
+val alpine_s6 = project.in(file("..")/"alpine-s6").enablePlugins(MosaicoDockerPlugin)
 
 dockerfile in docker := {
   new Dockerfile {

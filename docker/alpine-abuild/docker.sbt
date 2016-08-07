@@ -1,6 +1,6 @@
 imageNames in docker := Seq(ImageName(s"sciabarra/alpine-abuild:1"))
 
-val alpine_s6 = project.in(file("..")/"alpine-s6").enablePlugins(ChartsPlugin)
+val alpine_s6 = project.in(file("..")/"alpine-s6").enablePlugins(MosaicoDockerPlugin)
 
 dockerfile in docker := {
   val buildSh = (baseDirectory.value / "build.sh")
@@ -19,7 +19,7 @@ dockerfile in docker := {
          |yes | su - packager -c 'abuild-keygen -a -i ; echo PACKAGER_PRIVKEY=\"/home/packager/y\" >/home/packager/.abuild/abuild.conf'
          |""".stripMargin('|').replace('\n', ' '))
     user("packager")
-    copy(buildSh, "/home/packager/")
+    copyRaw(buildSh.getAbsolutePath, "/home/packager/")
     entryPoint("/bin/bash", "/home/packager/build.sh")
   }
 }

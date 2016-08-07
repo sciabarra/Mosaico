@@ -1,19 +1,18 @@
-name := "charts"
+name := "sbt-plugin"
 
-organization := "com.sciabarra"
+organization := "com.mosaico"
 
 scalacOptions += "-feature"
 
-lazy val root = project.in(file("."))
+lazy val root = project.in(file(".")).enablePlugins(MosaicoDockerPlugin)
 
-val sbt_plugin = project.in(file("plugin"))
+val alpine_s6 = project.in(file("alpine-s6")).enablePlugins(MosaicoDockerPlugin)
 
-val alpine_s6 = project.in(file("alpine-s6")).enablePlugins(ChartsPlugin)
+val alpine_abuild = project.in(file("alpine-abuild")).enablePlugins(MosaicoDockerPlugin)
 
-val alpine_abuild = project.in(file("alpine-abuild")).enablePlugins(ChartsPlugin)
+val alpine_nginx = project.in(file("alpine-nginx")).enablePlugins(MosaicoDockerPlugin)
 
-val alpine_nginx = project.in(file("alpine-nginx")).enablePlugins(ChartsPlugin)
+val alpine_django = project.in(file("alpine-django")).enablePlugins(MosaicoDockerPlugin)
 
-val alpine_django = project.in(file("alpine-django")).enablePlugins(ChartsPlugin)
+val alpine_django_websocket = project.in(file("alpine-django-websocket")).enablePlugins(MosaicoDockerPlugin)
 
-val alpine_django_websocket = project.in(file("alpine-django-websocket")).enablePlugins(ChartsPlugin)

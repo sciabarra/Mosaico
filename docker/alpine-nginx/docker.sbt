@@ -1,6 +1,6 @@
 imageNames in docker := Seq(ImageName(s"sciabarra/alpine-nginx:1"))
 
-val alpine_s6 = project.in(file("..")/"alpine-s6").enablePlugins(ChartsPlugin)
+val alpine_s6 = project.in(file("..")/"alpine-s6").enablePlugins(MosaicoDockerPlugin)
 
 //|sed -i  -e '1s/^/daemon off;\n/' /etc/nginx/nginx.conf ;
 

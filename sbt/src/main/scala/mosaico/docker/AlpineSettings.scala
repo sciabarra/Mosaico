@@ -1,11 +1,11 @@
-package sciabarra.charts
+package mosaico.docker
 
 import sbt._, Keys._
 
 trait AlpineSettings {
   this: AutoPlugin =>
 
-  import ChartsKeys._
+  import MosaicoDockerKeys._
 
   val abuildTask = abuild := {
     val args: Seq[String] = Def.spaceDelimited("<arg>").parsed

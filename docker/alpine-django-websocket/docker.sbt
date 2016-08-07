@@ -1,6 +1,6 @@
 imageNames in docker := Seq(ImageName(s"sciabarra/alpine-django-websocket:1"))
 
-val alpine_django = project.in(file("..")/"alpine-django").enablePlugins(ChartsPlugin)
+val alpine_django = project.in(file("..")/"alpine-django").enablePlugins(MosaicoDockerPlugin)
 
 val buildApk = taskKey[Seq[java.io.File]]("apk")
 
