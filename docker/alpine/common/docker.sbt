@@ -1,4 +1,4 @@
-imageNames in docker := Seq(ImageName(s"sciabarra/alpine-s6:1"))
+imageNames in docker := Seq(ImageName(s"sciabarra/alpine-common:1"))
 
 dockerfile in docker := {
   new Dockerfile {

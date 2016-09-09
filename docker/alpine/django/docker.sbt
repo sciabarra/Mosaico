@@ -1,13 +1,11 @@
-imageNames in docker := Seq(ImageName(s"sciabarra/alpine-django:1"))
-
-val alpine_s6 = project.in(file("..")/"alpine-s6").enablePlugins(MosaicoDockerPlugin)
+imageNames in docker := Seq(ImageName(s"sciabarra/alpine-django:1.9.7-1"))
 
 dockerfile in docker := {
   new Dockerfile {
-    from((docker in alpine_s6).value.toString)
+    from((docker in common).value.toString)
     runRaw(s"apk add python py-pip sqlite py-psycopg2")
-    runRaw("""pip install --upgrade setuptools "django>=1.9" django-extensions""")
-    copy(abuild.toTask(" py-uwsgi py-uwsgi.apk").value, "/tmp/")
+    runRaw("""pip install --upgrade setuptools "django==1.9.7" django-extensions""")
+    copy(alpBuild.toTask(" py-uwsgi py-uwsgi.apk").value, "/tmp/")
     runRaw("apk add --allow-untrusted /tmp/*.apk  && rm /tmp/*.apk")
     runRaw("django-admin startproject hello /home")
     env("DJANGO_APP", "hello")

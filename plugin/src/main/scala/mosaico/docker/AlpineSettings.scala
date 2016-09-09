@@ -7,10 +7,10 @@ trait AlpineSettings {
 
   import MosaicoDockerKeys._
 
-  val abuildTask = abuild := {
+  val alpBuildTask = alpBuild := {
     val args: Seq[String] = Def.spaceDelimited("<arg>").parsed
     if (args.length < 2) {
-      println("usage: abuild <APKBUILD> <APKFILE>")
+      println("usage: alpBuild <APKBUILD> <APKFILE>")
       Seq()
     } else {
       val base = baseDirectory.value
@@ -45,6 +45,6 @@ trait AlpineSettings {
     }
   }
 
-  val alpineSettings = Seq(abuildTask)
+  val alpineSettings = Seq(alpBuildTask)
 
 }
