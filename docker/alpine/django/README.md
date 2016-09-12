@@ -1,4 +1,4 @@
-# alpine-djanjo
+# alpine-djago
 
 Run a django app with wsgi.
 

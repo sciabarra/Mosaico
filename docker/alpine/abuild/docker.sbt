@@ -4,7 +4,7 @@ dockerfile in docker := {
   val buildSh = (baseDirectory.value / "build.sh")
   new Dockerfile {
     from((docker in common).value.toString)
-    runRaw("apk -U add alpine-sdk bash python python-dev py-pip nodejs nodejs-dev file linux-headers")
+    runRaw("apk -U add alpine-sdk bash python2 python2-dev py2-pip nodejs nodejs-dev file linux-headers")
     runRaw("pip install --upgrade setuptools")
     runRaw("pip install pypi-show-urls")
     runRaw(
@@ -17,7 +17,7 @@ dockerfile in docker := {
          |yes | su - packager -c 'abuild-keygen -a -i ; echo PACKAGER_PRIVKEY=\"/home/packager/y\" >/home/packager/.abuild/abuild.conf'
          |""".stripMargin('|').replace('\n', ' '))
     user("packager")
-    copyRaw(buildSh.getAbsolutePath, "/home/packager/")
+    add(buildSh, "/home/packager/")
     entryPoint("/bin/bash", "/home/packager/build.sh")
   }
 }
