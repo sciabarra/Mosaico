@@ -1,10 +1,9 @@
-# Mosaico by Sciabarra
+# Mosaico - Scala Cloud build kit
 
-(Unstable work in progress...)
+by [Michele Sciabarra](http://michele.sciabarra.com)
 
-Scala build kit. Currently some docker images built with sbt.
+Currently some docker images built with sbt.
 
-Planned to be a complete cloud-based kit including kubernetes and jenkins.
 
 
 
