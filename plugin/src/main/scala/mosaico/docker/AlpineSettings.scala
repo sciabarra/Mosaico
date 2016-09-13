@@ -1,6 +1,7 @@
 package mosaico.docker
 
 import sbt._, Keys._
+import scala.language.postfixOps
 
 trait AlpineSettings {
   this: AutoPlugin =>

@@ -1,4 +1,4 @@
-# Available Tasks in the plugin
+# Available Tasks in the MosaicoPlugin plugin
 
 ## alpBuild
 

@@ -11,5 +11,4 @@ object MosaicoDockerKeys {
   lazy val download = inputKey[Option[File]]("download")
 
   lazy val dki = taskKey[Unit]("dki")
-
 }
