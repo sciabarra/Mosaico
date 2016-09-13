@@ -16,7 +16,7 @@ object build extends Build {
     IO.write(output, s"""
 import sbt._,Keys._
 import sbtdocker.DockerPlugin,mosaico.docker.MosaicoDockerPlugin
-trait DockerSubprojects { this: Build =>
+trait DockerSubprojects {
 ${projects.mkString("\n")}
 }""")
     Seq(output)

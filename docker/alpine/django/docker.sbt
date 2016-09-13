@@ -11,7 +11,7 @@ dockerfile in docker := {
     env("DJANGO_APP", "hello")
     env("UWSGI_PROCESSES", "4")
     env("UWSGI_THREADS", "2")
-    copy(baseDirectory.value/"run", "/services/run")
+    copy(baseDirectory.value/"run", "/services/django/run")
     expose(8000,8001)
   }
 }
