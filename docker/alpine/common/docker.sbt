@@ -7,6 +7,6 @@ dockerfile in docker := {
     runRaw(s"""apk update && apk add git curl sudo""")
     copy(alpBuild.toTask(" daemontools daemontools.apk").value, "/tmp/")
     runRaw("apk add --allow-untrusted /tmp/*.apk  && rm /tmp/*.apk")
-    cmd("/usr/bin/svscanboot")
+    cmd("/usr/bin/svscan", "/services/")
   }
 }
