@@ -1,7 +1,6 @@
+val common = (project in file("..")/"common").enablePlugins(MosaicoPlugin)
+
 imageNames in docker := Seq(ImageName(s"sciabarra/alpine-nginx:1"))
-
-
-//|sed -i  -e '1s/^/daemon off;\n/' /etc/nginx/nginx.conf ;
 
 dockerfile in docker := {
   val base = baseDirectory.value

@@ -1,3 +1,5 @@
+val common = (project in file("..")/"common").enablePlugins(MosaicoPlugin)
+
 imageNames in docker := Seq(ImageName(s"sciabarra/alpine-django:1.9.7-1"))
 
 dockerfile in docker := {

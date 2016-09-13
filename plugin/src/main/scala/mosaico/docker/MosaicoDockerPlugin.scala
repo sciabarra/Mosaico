@@ -1,7 +1,5 @@
 package mosaico.docker
 
-import akka.actor.ActorSystem
-import akka.stream.ActorMaterializer
 import sbt._, Keys._
 import sbt.plugins.JvmPlugin
 import sbtdocker.DockerPlugin
