@@ -8,34 +8,22 @@ import sbt.plugins.JvmPlugin
   * Created by msciab on 13/09/16.
   */
 object MosaicoToplevelPlugin
-  extends AutoPlugin {
+  extends AutoPlugin
+    with GenerateSettings
+    with AmmoniteSettings {
 
   object Keys {
+    lazy val amm = inputKey[Unit]("amm")
+    lazy val ammScripts = settingKey[File]("ammScripts")
     lazy val genDockerSubs = taskKey[Unit]("genDockerSubs")
   }
 
-  val genDockerSubsTask = Keys.genDockerSubs := {
-    def norm(s: String) = s.replace("-", "_")
-    val folders = (file(".") ** "docker.sbt").get.map(_.getParentFile)
-    val projects = folders.map(_.getName).map(norm)
-    val projectDefs = folders.
-      map(x =>
-        s"""lazy val ${norm(x.getName)} = (project in file("${x}")).
-            |enablePlugins(MosaicoPlugin)""".stripMargin.replaceAll("\n", ""))
-
-    IO.write(baseDirectory.value / "subprojects.sbt",
-      s"""|${projectDefs.mkString("\n\n")}
-          |
-        |addCommandAlias("dockerBuildAll", "; ${projects.mkString("/docker ; ")}/docker")
-    """.stripMargin)
-
-    println("*** Docker subprojects:")
-    projects.foreach(println)
-
-  }
-
-  val autoImport = Keys
   override def requires = JvmPlugin
-  override val projectSettings = Seq(genDockerSubsTask)
+  val autoImport = Keys
+  import Keys._
+
+  override val projectSettings = Seq(
+    ammScripts := baseDirectory.value
+  ) ++ ammoniteSettings ++ generateSettings
 
 }

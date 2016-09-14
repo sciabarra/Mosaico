@@ -1,6 +1,7 @@
 package mosaico
 
 import mosaico.docker.MosaicoDockerPlugin
+import mosaico.toplevel.MosaicoToplevelPlugin
 import sbt.AutoPlugin
 import sbt.plugins.JvmPlugin
 import sbtdocker.DockerPlugin
