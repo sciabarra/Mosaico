@@ -1,6 +1,6 @@
 package mosaico.ammonite
 
-import java.io.File
+import java.io.{FileNotFoundException, File}
 
 import mosaico.docker.MosaicoDockerKeys
 import sbt.Keys._
@@ -26,7 +26,8 @@ trait AmmoniteSettings {
 
     val forkOpt = ForkOptions(
       runJVMOptions = jvmOpts,
-      workingDirectory = Some(baseDirectory.value))
+      workingDirectory = Some(baseDirectory.value),
+      connectInput = true)
 
     val runOpts = Seq("ammonite.Main"
       , "--no-default-predef"
@@ -42,6 +43,9 @@ trait AmmoniteSettings {
         else
           ammScripts.value / s"${args(0)}.sc"
 
+      if(!script.exists())
+        throw new FileNotFoundException(s"not found ${script}")
+
       script.getAbsolutePath +: args.tail
     }
 
@@ -52,8 +56,8 @@ trait AmmoniteSettings {
 
   val predef =
     """import $ivy.`com.lihaoyi::ammonite-shell:0.7.6`;
-       |val shellSession = ammonite.shell.ShellSession ();
-       |import shellSession._, ammonite.ops._, ammonite.shell.
+      |val shellSession = ammonite.shell.ShellSession ();
+      |import shellSession._, ammonite.ops._, ammonite.shell._
     """.stripMargin.replaceAll("\n", " ")
 
   val ammoniteSettings = Seq(ammTask
@@ -67,17 +71,3 @@ trait AmmoniteSettings {
       map(_.select(configurationFilter("ammonite")))
   )
 }
-
-/* val amm = ammonite.Main(
-   """
-     |import $ivy.`com.lihaoyi::ammonite-shell:0.7.6`
-     |val shellSession = ammonite.shell.ShellSession()
-     |import shellSession._,ammonite.ops._,ammonite.shell._
-   """.
-     stripMargin
-   , false
-   , new Storage.Folder(Path(baseDirectory.value/"target").toPath)
-   , Path(ammScripts.value.toPath)
-   )
-
- amm.runScript(path, args.tail, Seq.empty, true)*/
