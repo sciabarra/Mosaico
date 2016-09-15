@@ -1,4 +1,4 @@
-val common = (project in file("..")/"common").enablePlugins(MosaicoPlugin)
+val common = (project in file("..")/"common").enablePlugins(MosaicoDockerPlugin)
 
 imageNames in docker := Seq(ImageName(s"sciabarra/alpine-nginx:1"))
 

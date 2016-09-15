@@ -25,3 +25,4 @@ However, it is not so easy in practice. You may have a number of needs that are 
 You can collect all those requirements in a simple statement: you need a build tools to be run before you actually build your docker images.  
 
 Luckily, SBT is such a build tool and here I show how you can do advanced builds with SBT.
+

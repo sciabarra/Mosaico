@@ -22,8 +22,8 @@ libraryDependencies ++= Seq(
   , "com.typesafe.akka"          %  "akka-stream-experimental_2.10"    % "2.0.3"
   , "com.typesafe.akka"          %  "akka-http-core-experimental_2.10" % "2.0.3"
   , "com.typesafe.akka"          %  "akka-http-experimental_2.10"      % "2.0.3"
-  , "com.lihaoyi"                %  s"ammonite_${scalaVersion.value}"  % "0.7.6" //I cannot believe it!
-  , "com.lihaoyi"                %  s"ammonite-repl_${scalaVersion.value}"  % "0.7.6" //I cannot believe it!
+  //, "com.lihaoyi"                %  s"ammonite_${scalaVersion.value}"  % "0.7.6" //I cannot believe it!
+  //, "com.lihaoyi"                %  s"ammonite-repl_${scalaVersion.value}"  % "0.7.6" //I cannot believe it!
   )
 
 addSbtPlugin("se.marcuslonnberg" % "sbt-docker" % "1.4.0")

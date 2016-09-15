@@ -1,4 +1,4 @@
-val common = (project in file("..")/"common").enablePlugins(MosaicoPlugin)
+val common = (project in file("..")/"common").enablePlugins(MosaicoDockerPlugin)
 
 val v = "1"
 val ver = "1.8.0_101"

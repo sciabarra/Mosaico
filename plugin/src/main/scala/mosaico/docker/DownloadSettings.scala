@@ -1,9 +1,8 @@
 package mosaico.docker
 
-import sbt._, Keys._
 import mosaico.common.Download
+import sbt._, Keys._
 import java.net._
-
 
 trait DownloadSettings extends Download {
   this: AutoPlugin =>
@@ -11,7 +10,7 @@ trait DownloadSettings extends Download {
   import MosaicoDockerKeys._
 
   def usage = {
-    println("usage: download <url> [file] [header...]")
+    println("usage: download {url} [{file}] [{header}...]")
     None
   }
 

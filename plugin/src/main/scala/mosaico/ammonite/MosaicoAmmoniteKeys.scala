@@ -1,16 +1,10 @@
-package mosaico.docker
+package mosaico.ammonite
 
 import java.io.File
 
 import sbt._
 
-object MosaicoDockerKeys {
-
-  lazy val alpBuild = inputKey[Seq[File]]("alpBuild")
-
-  lazy val download = inputKey[Option[File]]("download")
-
-  lazy val dki = taskKey[Unit]("dki")
+object MosaicoAmmoniteKeys {
 
   lazy val amm = inputKey[Unit]("amm")
   lazy val ammPredef = settingKey[String]("ammPredef")

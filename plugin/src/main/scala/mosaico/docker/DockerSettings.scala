@@ -12,7 +12,6 @@ trait DockerSettings {
     "docker images --format '{{.ID}} {{.Repository}}:{{.Tag}}'" !
   }
 
-
   val dockerSettings = Seq(dkiTask)
 
 }

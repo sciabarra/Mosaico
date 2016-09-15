@@ -1,30 +1,15 @@
 # Conventions for the Docker Images
 
-# Conventions
+The images use the following conventins and paths:
 
-The images uses the following path:
+Everything runs as root inside the container
 
-- Everything runs with root
-- Uses `daemontools` for starting processes,
+Images `daemontools` for starting processes, and keeping them running.
+Basically they never die because if one dies it is automatically restarted.
+
+Standard for paths inside the images:
+
 - `/home/<app>` for app code
 - `/var/<app>` for app data
 - `/service/<app>` for run script
 
-# Build
-
-From the sbt shell, use:
-
-
-```
-docker
-```
-
-to build all the images.
-
-Use:
-
-```
-image/docker 
-```
-
-to build a single image (and its dependencies).

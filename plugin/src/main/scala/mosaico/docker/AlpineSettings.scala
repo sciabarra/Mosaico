@@ -11,7 +11,7 @@ trait AlpineSettings {
   val alpBuildTask = alpBuild := {
     val args: Seq[String] = Def.spaceDelimited("<arg>").parsed
     if (args.length < 2) {
-      println("usage: alpBuild <APKBUILD> <APKFILE>")
+      println("usage: alpBuild {APKBUILD} {APKFILE}")
       Seq()
     } else {
       val base = baseDirectory.value
@@ -25,7 +25,7 @@ trait AlpineSettings {
           s"""docker run
               | -v ${inFile.getAbsolutePath}:/home/packager/${in}
               | -v ${base}/target:/home/packager/packages
-              | sciabarra/alpine-abuild:1 ${in} ${out}
+              | sciabarra/alpine-abuild ${in} ${out}
               |""".stripMargin.replace('\n', ' ')
 
         if (!outFile.exists) {
