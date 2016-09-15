@@ -26,3 +26,5 @@ You can collect all those requirements in a simple statement: you need a build t
 
 Luckily, SBT is such a build tool and here I show how you can do advanced builds with SBT.
 
+## Collecting artifacts
+

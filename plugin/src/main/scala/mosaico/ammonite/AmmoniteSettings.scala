@@ -12,7 +12,7 @@ import sbt._
 trait AmmoniteSettings {
   this: AutoPlugin =>
 
-  import MosaicoDockerKeys._
+  import MosaicoAmmoniteKeys._
 
   val ammTask = amm := {
 
