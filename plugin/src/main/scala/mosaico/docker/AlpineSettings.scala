@@ -10,14 +10,15 @@ trait AlpineSettings {
 
   val alpBuildTask = alpBuild := {
     val args: Seq[String] = Def.spaceDelimited("<arg>").parsed
-    if (args.length < 2) {
-      println("usage: alpBuild {APKBUILD} {APKFILE}")
+    if (args.length < 3) {
+      println("usage: alpBuild {ABUILDIMAGE} {APKBUILD} {APKFILE}")
       Seq()
     } else {
+      val image = args(0)
       val base = baseDirectory.value
-      val in = args(0)
+      val in = args(1)
       val inFile = base / in
-      val out = args(1)
+      val out = args(2)
       val outFile = base / "target" / out
 
       if (inFile.exists) {
@@ -25,7 +26,7 @@ trait AlpineSettings {
           s"""docker run
               | -v ${inFile.getAbsolutePath}:/home/packager/${in}
               | -v ${base}/target:/home/packager/packages
-              | sciabarra/alpine-abuild ${in} ${out}
+              | ${image} ${in} ${out}
               |""".stripMargin.replace('\n', ' ')
 
         if (!outFile.exists) {
