@@ -10,7 +10,7 @@ dockerfile in docker := {
     runRaw(s"""|apk add nginx ;
                |mkdir -p /run/nginx /home/static /home/media ;
                |""".stripMargin.replace('\n',' '))
-    copy(base/"run", "/services/nginx/run")
+    copy(base/"run.sh", "/services/nginx/run")
     copy(base/"django.conf.tpl", "/etc/nginx/django.conf.tpl")
   }
 }
