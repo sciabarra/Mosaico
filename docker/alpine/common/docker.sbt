@@ -5,9 +5,11 @@ val abuild = (project in file("..")/"abuild").enablePlugins(MosaicoDockerPlugin)
 
 dockerfile in docker := {
   (docker in abuild).value // ensure the abuild image is built
+  val apk = alpBuild.toTask(" daemontools.sh daemontools.apk").value
+  println(apk)
   new Dockerfile {
     from("alpine:edge")
-    copy(alpBuild.toTask(" daemontools.sh daemontools.apk").value, "/tmp/")
+    copy(apk, "/tmp/")
     runRaw(s"""apk update && apk add git curl sudo""")
     runRaw("apk add --allow-untrusted /tmp/*.apk  && rm /tmp/*.apk")
     cmd("/usr/bin/svscan", "/services/")
