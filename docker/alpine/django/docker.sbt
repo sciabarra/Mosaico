@@ -1,8 +1,11 @@
+alpBuildImage := Some("sciabarra/alpine-abuild:1")
+val abuild = (project in file("..")/"abuild").enablePlugins(MosaicoDockerPlugin)
 val common = (project in file("..")/"common").enablePlugins(MosaicoDockerPlugin)
 
 imageNames in docker := Seq(ImageName(s"sciabarra/alpine-django:1.9.7-1"))
 
 dockerfile in docker := {
+  (docker in abuild).value // ensure the build image is built
   new Dockerfile {
     from((docker in common).value.toString)
     runRaw(s"apk add sqlite python2 py2-pip py-psycopg2")

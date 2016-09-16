@@ -10,15 +10,17 @@ trait AlpineSettings {
 
   val alpBuildTask = alpBuild := {
     val args: Seq[String] = Def.spaceDelimited("<arg>").parsed
-    if (args.length < 3) {
-      println("usage: alpBuild {ABUILDIMAGE} {APKBUILD} {APKFILE}")
+    val buildImage = alpBuildImage.value
+    if(buildImage.isEmpty)
+      throw new Exception("Please set the alpBuildImage key to Some(value)")
+    if (args.length < 2) {
+      println("usage: alpBuild {APKBUILD} {APKFILE}")
       Seq()
     } else {
-      val image = args(0)
       val base = baseDirectory.value
-      val in = args(1)
+      val in = args(0)
       val inFile = base / in
-      val out = args(2)
+      val out = args(1)
       val outFile = base / "target" / out
 
       if (inFile.exists) {
@@ -26,7 +28,7 @@ trait AlpineSettings {
           s"""docker run
               | -v ${inFile.getAbsolutePath}:/home/packager/${in}
               | -v ${base}/target:/home/packager/packages
-              | ${image} ${in} ${out}
+              | ${buildImage.get} ${in} ${out}
               |""".stripMargin.replace('\n', ' ')
 
         if (!outFile.exists) {
@@ -47,6 +49,9 @@ trait AlpineSettings {
     }
   }
 
-  val alpineSettings = Seq(alpBuildTask)
+  val alpineSettings = Seq(
+    alpBuildTask,
+    alpBuildImage := None
+  )
 
 }

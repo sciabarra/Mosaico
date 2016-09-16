@@ -12,8 +12,9 @@ object MosaicoDockerPlugin
     with AlpineSettings
     with AmmoniteSettings {
 
-  override def requires = JvmPlugin &&
-    DockerPlugin
+  override def requires =
+    JvmPlugin &&
+      DockerPlugin
 
   val autoImport = MosaicoDockerKeys
 

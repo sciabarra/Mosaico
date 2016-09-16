@@ -1,12 +1,11 @@
-val common = (project in file("..")/"common").enablePlugins(MosaicoDockerPlugin)
-
 imageNames in docker := Seq(ImageName(s"sciabarra/alpine-abuild:1"))
 
 dockerfile in docker := {
   val buildSh = (baseDirectory.value / "build.sh")
   new Dockerfile {
-    from((docker in common).value.toString)
-    runRaw("apk -U add alpine-sdk bash python2 python2-dev py2-pip nodejs nodejs-dev file linux-headers")
+    from("alpine:edge")
+    runRaw("apk update")
+    runRaw("apk -U add alpine-sdk git curl sudo bash python2 python2-dev py2-pip nodejs nodejs-dev file linux-headers")
     runRaw("pip install --upgrade setuptools")
     runRaw("pip install pypi-show-urls")
     runRaw(
