@@ -18,7 +18,7 @@ dockerfile in docker := {
          |yes | su - packager -c 'abuild-keygen -a -i ; echo PACKAGER_PRIVKEY=\"/home/packager/y\" >/home/packager/.abuild/abuild.conf'
          |""".stripMargin('|').replace('\n', ' '))
     user("packager")
-    add(buildSh, "/home/packager/")
-    entryPoint("/bin/bash", "/home/packager/build.sh")
+    add(buildSh, "/home/")
+    entryPoint("/bin/bash", "/home/build.sh")
   }
 }

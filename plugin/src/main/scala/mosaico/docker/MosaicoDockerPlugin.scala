@@ -1,5 +1,6 @@
 package mosaico.docker
 
+import mosaico.config.MosaicoConfigPlugin
 import sbt._, Keys._
 import sbt.plugins.JvmPlugin
 import sbtdocker.DockerPlugin
@@ -14,7 +15,8 @@ object MosaicoDockerPlugin
 
   override def requires =
     JvmPlugin &&
-      DockerPlugin
+      DockerPlugin &&
+      MosaicoConfigPlugin
 
   val autoImport = MosaicoDockerKeys
 
