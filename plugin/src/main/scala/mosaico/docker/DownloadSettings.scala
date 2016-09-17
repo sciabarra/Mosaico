@@ -1,13 +1,18 @@
 package mosaico.docker
 
+import java.io.File
+
 import mosaico.common.Download
 import sbt._, Keys._
 import java.net._
 
 trait DownloadSettings extends Download {
   this: AutoPlugin =>
+  import MosaicoDockerPlugin.autoImport._
 
-  import MosaicoDockerKeys._
+  trait DownloadKeys {
+    lazy val download = inputKey[Option[File]]("download")
+  }
 
   def usage = {
     println("usage: download {url} [{file}] [{header}...]")

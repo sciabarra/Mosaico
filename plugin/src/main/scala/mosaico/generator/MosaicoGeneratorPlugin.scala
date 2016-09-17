@@ -13,7 +13,7 @@ object MosaicoGeneratorPlugin
   override def requires = JvmPlugin
 
   object Keys {
-    lazy val dockers = taskKey[Unit]("dockers")
+    lazy val genDockers = taskKey[Unit]("genDockers")
   }
   val autoImport = Keys
   import Keys._
@@ -21,7 +21,7 @@ object MosaicoGeneratorPlugin
   /**
     * Generate Subtasks
     */
-  val dockersTask = dockers := {
+  val genDockersTask = genDockers := {
     def norm(s: String) = s.replace("-", "_")
     val folders = (file(".") ** "docker.sbt").get.map(_.getParentFile)
     val projects = folders.map(_.getName).map(norm)
@@ -42,5 +42,5 @@ object MosaicoGeneratorPlugin
 
   }
 
-  override val projectSettings = Seq(dockersTask)
+  override val projectSettings = Seq(genDockersTask)
 }

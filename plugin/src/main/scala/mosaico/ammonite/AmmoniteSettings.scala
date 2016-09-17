@@ -2,7 +2,6 @@ package mosaico.ammonite
 
 import java.io.{FileNotFoundException, File}
 
-import mosaico.docker.MosaicoDockerKeys
 import sbt.Keys._
 import sbt._
 

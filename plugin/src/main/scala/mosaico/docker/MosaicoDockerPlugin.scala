@@ -1,31 +1,28 @@
 package mosaico.docker
 
-import mosaico.config.MosaicoConfigPlugin
 import sbt._, Keys._
 import sbt.plugins.JvmPlugin
 import sbtdocker.DockerPlugin
-import mosaico.ammonite.{MosaicoAmmonitePlugin, AmmoniteSettings}
+import mosaico.config.MosaicoConfigPlugin
 
 object MosaicoDockerPlugin
   extends AutoPlugin
     with DockerSettings
     with DownloadSettings
-    with AlpineSettings
-    with AmmoniteSettings {
+    with AlpineSettings {
+
+  object autoImport
+    extends AlpineKeys
+      with DockerKeys
+      with DownloadKeys
+
+  override val projectSettings =
+    dockerSettings ++
+      downloadSettings ++
+      alpineSettings
 
   override def requires =
     JvmPlugin &&
       DockerPlugin &&
       MosaicoConfigPlugin
-
-  val autoImport = MosaicoDockerKeys
-
-  import autoImport._
-
-  override val projectSettings =
-    dockerSettings ++
-      downloadSettings ++
-      alpineSettings ++
-      ammoniteSettings
-
 }

@@ -7,7 +7,11 @@ import scala.language.postfixOps
 trait DockerSettings {
   this: AutoPlugin =>
 
-  import MosaicoDockerKeys._
+  trait DockerKeys {
+
+  }
+
+  import MosaicoDockerPlugin.autoImport._
 
   val dockerSettings = Seq()
 

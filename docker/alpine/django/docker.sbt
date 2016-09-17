@@ -1,4 +1,4 @@
-alpBuildImage := Some("sciabarra/alpine-abuild:1")
+alpineBuildImage := Some("sciabarra/alpine-abuild:1")
 val abuild = (project in file("..")/"abuild").enablePlugins(MosaicoDockerPlugin)
 val common = (project in file("..")/"common").enablePlugins(MosaicoDockerPlugin)
 
@@ -10,7 +10,8 @@ dockerfile in docker := {
     from((docker in common).value.toString)
     runRaw(s"apk add sqlite python2 py2-pip py-psycopg2")
     runRaw("""pip install --upgrade setuptools "django==1.9.7" django-extensions""")
-    copy(alpBuild.toTask(" py-uwsgi.sh py-uwsgi.apk").value, "/tmp/")
+    copy(alpineBuild.toTask(" py-uwsgi.sh py-uwsgi.apk").value, "/tmp/")
+    copy(alpineBuild.toTask(" py-uwsgi.sh py-uwsgi.apk").value, "/tmp/")
     runRaw("apk add --allow-untrusted /tmp/*.apk  && rm /tmp/*.apk")
     runRaw("django-admin startproject hello /home")
     env("DJANGO_APP", "hello")

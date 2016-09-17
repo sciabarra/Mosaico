@@ -1,6 +1,6 @@
 name := "test-sbt-mosaico"
 
-enablePlugins(MosaicoConfigPlugin)
+enablePlugins(MosaicoGeneratorPlugin,MosaicoConfigPlugin)
 
 prpPrefixes := Seq("test")
 
