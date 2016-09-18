@@ -28,8 +28,8 @@ trait AlpineSettings extends MiscUtils {
 
       val base = baseDirectory.value
       val buildImage = args(0)
-      val target = base / "target"
-      val abuild = base / "abuild"
+      val target = (base / "target").getAbsolutePath.replace('\\', '/') // damn windows!
+      val abuild = (base / "abuild").getAbsolutePath.replace('\\', '/')
       val in = args(1)
       val inFile = abuild / in
       val out = args(2)
@@ -40,12 +40,12 @@ trait AlpineSettings extends MiscUtils {
             | -v ${abuild}:/home/abuild
             | -v ${target}:/home/packager/packages
             | ${buildImage} ${in} ${out}
-            |""".stripMargin.replace('\n', ' ')
+            |""".stripMargin.replaceAll("[\\r\\n]", "")
 
-      debug(cmd)
       if (inFile.exists) {
         if (!outFile.exists) {
-          println(s"*** not found ${outFile.getAbsolutePath} - building")
+          println(s"!!!!*** not found ${outFile.getAbsolutePath} - building")
+          println(cmd)
           cmd !
         } else {
           println(s"*** found ${outFile} - not building")
