@@ -31,9 +31,9 @@ trait AlpineSettings extends MiscUtils {
       val target = (base / "target").getAbsolutePath.replace('\\', '/') // damn windows!
       val abuild = (base / "abuild").getAbsolutePath.replace('\\', '/')
       val in = args(1)
-      val inFile = abuild / in
+      val inFile = base / "abuild" / in
       val out = args(2)
-      val outFile = target / out
+      val outFile = base / "target" / out
 
       val cmd =
         s"""docker run
@@ -44,7 +44,7 @@ trait AlpineSettings extends MiscUtils {
 
       if (inFile.exists) {
         if (!outFile.exists) {
-          println(s"!!!!*** not found ${outFile.getAbsolutePath} - building")
+          println(s"*** not found ${outFile.getAbsolutePath} - building")
           println(cmd)
           cmd !
         } else {
