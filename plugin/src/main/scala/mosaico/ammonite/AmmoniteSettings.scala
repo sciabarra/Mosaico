@@ -57,7 +57,7 @@ trait AmmoniteSettings {
     """import $ivy.`com.lihaoyi::ammonite-shell:0.7.6`;
       |val shellSession = ammonite.shell.ShellSession ();
       |import shellSession._, ammonite.ops._, ammonite.shell._
-    """.stripMargin.replaceAll("\n", " ")
+    """.stripMargin.replaceAll("[\\n\\r]", "")
 
   val ammoniteSettings = Seq(ammTask
     , ivyConfigurations += config("ammonite")

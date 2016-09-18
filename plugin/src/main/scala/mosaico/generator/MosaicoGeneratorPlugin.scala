@@ -29,7 +29,8 @@ object MosaicoGeneratorPlugin
       map(folder =>
         s"""lazy val ${norm(folder.getName)} = (project in file("${folder}"))
             |.enablePlugins(MosaicoDockerPlugin,MosaicoAmmonitePlugin)
-            |""".stripMargin.replaceAll("\n", ""))
+            |""".stripMargin.replaceAll("[\\n\\r]", ""))
+
 
     IO.write(baseDirectory.value / "deps.sbt",
       s"""|${projectDefs.mkString("\n\n")}
