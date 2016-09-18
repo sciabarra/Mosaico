@@ -1,19 +1,19 @@
 package mosaico.config
 
 import java.util.Properties
-import mosaico.common.FileUtils
+import mosaico.common.{MiscUtils, FileUtils}
 import sbt.Keys._
 import sbt._
 
 /**
   * Created by msciab on 08/02/15.
   */
-trait PropertySettings extends FileUtils {
+trait PropertySettings extends FileUtils with MiscUtils {
   this: AutoPlugin =>
 
   trait PropertyKeys {
-    lazy val prpPrefixes = settingKey[Seq[String]]("Property Prefixes")
     lazy val prp = settingKey[Map[String, String]]("Property Map")
+    lazy val prpLookup = settingKey[Seq[(File, String)]]("Where to lookup for property files")
   }
 
   import MosaicoConfigPlugin.autoImport._
@@ -31,19 +31,19 @@ trait PropertySettings extends FileUtils {
   lazy val prpTask = prp := {
     try {
       val prp: Properties = new Properties
-      //println("=== Property files ===")
       val loaded = for {
-        prpPrefix <- prpPrefixes.value
+        (prpDir, prpPrefix) <- prpLookup.value
         prpExt <- prpExtensions
         prpName = s"${prpPrefix}.${prpExt}"
-        prpFile = baseDirectory.value / prpName
+        prpFile = prpDir / prpName
       } yield {
-        if (prpFile.exists)
+        if (prpFile.exists) {
           prp.load(new java.io.FileInputStream(prpFile))
-        //println(prpFile)
+          val filename = prpFile.getAbsolutePath
+          trace("prp", s"loaded ${filename}")
+        }
         prpFile
       }
-      //println("--- Properties --- ")
       prp.asScala.toMap
     } catch {
       case _: Throwable => Map()
@@ -74,38 +74,10 @@ trait PropertySettings extends FileUtils {
         Option(System.getProperty("profile")).map("[" + _ + "]> ").getOrElse("> ")
   }
 
-
-  val prpDumpCmd = Command.args("prpDump", "[-v]") {
-    (state, args) =>
-      val verbose = args.size==1 && args(0) == "-v"
-      val extracted: Extracted = Project.extract(state)
-      val prpMap = (prp in extracted.currentRef get extracted.structure.data).get
-      val prpPrefs = (prpPrefixes in extracted.currentRef get extracted.structure.data).get
-      val base = (baseDirectory in extracted.currentRef get extracted.structure.data).get
-
-      println("=== Property files ===")
-      val loaded = for {
-        prpPrefix <- prpPrefs
-        prpExt <- prpExtensions
-        prpName = s"${prpPrefix}.${prpExt}"
-        prpFile = base / prpName
-      } {
-        if (verbose)
-          println(s"*** looking for ${prpFile.getAbsolutePath}")
-        if (prpFile.exists)
-          println(s"${prpName}")
-      }
-      println("--- Properties --- ")
-      for ((k, v) <- prpMap)
-        println(s"${k}=${v}")
-
-      state
-  }
-
   val propertySettings = Seq(
-    prpPrefixes := Seq("mosaico")
+    prpLookup := Seq(baseDirectory.value -> "mosaico")
     , prpTask
     , shellPromptTask
-    , commands ++= Seq(profileCmd, prpDumpCmd)
+    , commands ++= Seq(profileCmd)
   )
 }

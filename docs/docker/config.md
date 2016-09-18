@@ -7,7 +7,8 @@ so you can get a named property (a string) in your build with:
 
 `prp.value("property.name")`
 
-Default configuration files are in the top level, in order:
+Default configuration files are placed the top level folder of your file, 
+and are in order:
 
 - `mosaico.dist.properties`
 - `mosaico.properties`
@@ -35,19 +36,19 @@ Profile switch will set the `profile` sytem property and reload the property fil
 
 # Adding property files
 
+Where and which property files 
 You can change or add your own property files with the setting:
 
 ```
-prpPrefixes ++= Seq("demo")
+prpLookup ++= Seq(file("prp")->"myprp")
 ```
 
 Default prefix is `mosaico`, if you add your own the system will process 
-also yours, including a profile. So if have a profile `devel`, 
-it will process also
+also your prefixes, including a profile if there is one. 
+
+So if have a profile `devel`,  it will process also
 
 `demo.dist.properties`
 `demo.properties`
 `demo.local.properties`
 `demo.devel.properties`
-
-

@@ -1,3 +1,5 @@
+prpLookup += baseDirectory.value.getParentFile -> "alpine"
+
 val common = (project in file("..")/"common").enablePlugins(MosaicoDockerPlugin)
 
 imageNames in docker := Seq(ImageName(s"sciabarra/alpine-nginx:1"))

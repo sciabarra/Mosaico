@@ -13,7 +13,7 @@ object MosaicoGeneratorPlugin
   override def requires = JvmPlugin
 
   object Keys {
-    lazy val genDockers = taskKey[Unit]("genDockers")
+    lazy val genDeps = taskKey[Unit]("genDeps")
   }
   val autoImport = Keys
   import Keys._
@@ -21,16 +21,17 @@ object MosaicoGeneratorPlugin
   /**
     * Generate Subtasks
     */
-  val genDockersTask = genDockers := {
+  val genDepsTask = genDeps := {
     def norm(s: String) = s.replace("-", "_")
-    val folders = (file(".") ** "docker.sbt").get.map(_.getParentFile)
+    val folders = (file(".") ** "test-test-docker.sbt").get.map(_.getParentFile)
     val projects = folders.map(_.getName).map(norm)
     val projectDefs = folders.
-      map(x =>
-        s"""lazy val ${norm(x.getName)} = (project in file("${x}")).
-            |enablePlugins(MosaicoDockerPlugin,MosaicoAmmonitePlugin)""".stripMargin.replaceAll("\n", ""))
+      map(folder =>
+        s"""lazy val ${norm(folder.getName)} = (project in file("${folder}"))
+            |.enablePlugins(MosaicoDockerPlugin,MosaicoAmmonitePlugin)
+            |""".stripMargin.replaceAll("\n", ""))
 
-    IO.write(baseDirectory.value / "dockers.sbt",
+    IO.write(baseDirectory.value / "deps.sbt",
       s"""|${projectDefs.mkString("\n\n")}
           |
           |addCommandAlias("dockers", "; ${projects.mkString("/docker ; ")}/docker")
@@ -38,9 +39,8 @@ object MosaicoGeneratorPlugin
 
     println("*** Docker subprojects found:")
     projects.foreach(println)
-    println("*** Generated dockers.sbt, please reload")
-
+    println("*** Generated deps.sbt, please reload")
   }
 
-  override val projectSettings = Seq(genDockersTask)
+  override val projectSettings = Seq(genDepsTask)
 }

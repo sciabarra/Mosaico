@@ -1,3 +1,5 @@
+prpLookup += baseDirectory.value.getParentFile -> "docker"
+
 imageNames in docker := Seq(ImageName(prp.value("alpine.abuild")))
 
 dockerfile in docker := {
@@ -6,8 +8,6 @@ dockerfile in docker := {
     from("alpine:edge")
     runRaw("apk update")
     runRaw("apk -U add alpine-sdk git curl sudo bash python2 python2-dev py2-pip nodejs nodejs-dev file linux-headers")
-    runRaw("pip install --upgrade setuptools")
-    runRaw("pip install pypi-show-urls")
     runRaw(
       s"""
          |adduser -D packager &&

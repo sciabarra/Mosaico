@@ -1,11 +1,14 @@
+prpLookup += baseDirectory.value.getParentFile -> "docker"
+
 imageNames in docker := Seq(ImageName(prp.value("alpine.common")))
 
-alpineBuildImage := Some(prp.value("alpine.abuild"))
-val abuild = (project in file("..")/"abuild").enablePlugins(MosaicoDockerPlugin)
+val abuild = project.in(file("..")/"abuild").enablePlugins(MosaicoDockerPlugin)
 
 dockerfile in docker := {
-  (docker in abuild).value // ensure the abuild image is built
-  val apk = alpineBuild.toTask(" daemontools.sh daemontools.apk").value
+  val apk = Def.sequential(
+    docker in abuild,
+    alpineBuild.toTask(" @alpine.abuild daemontools.sh daemontools.apk")
+  ).value
   new Dockerfile {
     from("alpine:edge")
     copy(apk, "/tmp/")

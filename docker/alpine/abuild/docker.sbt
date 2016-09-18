@@ -1,4 +1,6 @@
-imageNames in docker := Seq(ImageName(s"sciabarra/alpine-abuild:1"))
+prpLookup += baseDirectory.value.getParentFile -> "alpine"
+
+imageNames in docker := Seq(ImageName(prp.value("alpine.abuild")))
 
 dockerfile in docker := {
   val buildSh = (baseDirectory.value / "build.sh")

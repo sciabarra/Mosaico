@@ -158,24 +158,6 @@ trait FileUtils {
   }
 
 
-  /* to be placed somewhere
 
-  // Utils
-  def exec(args: Seq[String], home: File, cp: Seq[File]) = {
-    Fork.java(ForkOptions(
-      runJVMOptions = "-cp" :: cp.map(_.getAbsolutePath).mkString(java.io.File.pathSeparator) :: Nil,
-      workingDirectory = Some(home)), args)
-  }
-
-  // get a wrapped property
-  def prp(property: String) = {
-    val r = System.getProperty(property)
-    if (r == null)
-      None
-    else
-      Some(r)
-  }
-
-  */
 
 }

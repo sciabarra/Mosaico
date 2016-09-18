@@ -1,18 +1,20 @@
 package mosaico.docker
 
-import java.io.File
-
-import mosaico.common.Download
+import mosaico.common.{MiscUtils, Download}
+import mosaico.config.MosaicoConfigPlugin
 import sbt._, Keys._
 import java.net._
 
-trait DownloadSettings extends Download {
+trait DownloadSettings
+  extends Download
+    with MiscUtils {
   this: AutoPlugin =>
-  import MosaicoDockerPlugin.autoImport._
 
   trait DownloadKeys {
     lazy val download = inputKey[Option[File]]("download")
   }
+  import MosaicoConfigPlugin.autoImport._
+  import MosaicoDockerPlugin.autoImport._
 
   def usage = {
     println("usage: download {url} [{file}] [{header}...]")
@@ -20,8 +22,9 @@ trait DownloadSettings extends Download {
   }
 
   val downloadTask = download := {
-    val args: Seq[String] = Def.spaceDelimited("<arg>").parsed
+    val args: Seq[String] = replaceAtWithMap(Def.spaceDelimited("<arg>").parsed, prp.value)
     val base = baseDirectory.value
+
     args.length match {
       case 0 =>
         usage
