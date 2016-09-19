@@ -3,12 +3,12 @@ import org.rauschig.jarchivelib._
 import java.io._
 
 val exclude = "jdk1.8.0_\\d+/(src\\.zip|javafx-src\\.zip.*|db/.*|man/.*|include/.*|lib/(missioncontrol|visualvm)/.*|jre/lib/desktop/.*)".r
-val outfile = new File("trimjdk.tar.gz")
 val infile = new File("jdk.tgz")
 val base = pwd.toIO
 val outdir = (pwd/"usr").toIO
 
-if(!infile.exists || outfile.exists) {
+if(!infile.exists || outdir.exists) {
+  println("input missing or out dir exists - skipping")
   System.exit(0)
 }
 
@@ -27,9 +27,3 @@ while (ent != null) {
   }
   ent = str.getNextEntry
 }
-
-println("\nArchiving...")
-arc.create(outfile.getName, base, outdir)
-println("done. Removing...")
-rm! pwd/"usr"
-println("done")

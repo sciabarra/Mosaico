@@ -15,8 +15,8 @@ dockerfile in docker := {
     from((docker in common).value.toString)
     copy(base/"glibc.apk", "/tmp")
     runRaw("apk add --allow-untrusted /tmp/*.apk  && rm /tmp/*.apk")
-    add(base/"trimjdk.tar.gz", "/usr")
-    runRaw(s"ln -s /usr/jdk${prp.value("alpine.jdk.ver")} /usr/java ; chmod +x /usr/java/bin/*")
+    add(base/"usr", "/usr")
+    runRaw("ln -sf /usr/jdk* /usr/java ; chmod +x /usr/java/bin/*")
     env("JAVA_HOME", "/usr/java")
     env("PATH", "/bin:/sbin:/usr/bin:/usr/sbin:/usr/java/bin")
   }
