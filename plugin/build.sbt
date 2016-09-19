@@ -61,4 +61,4 @@ pomExtra := (
     </developer>
   </developers>)
 
-sonatypeProfileName := "sciabarra"
+sonatypeProfileName := "com.sciabarra"
