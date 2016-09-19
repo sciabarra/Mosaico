@@ -1,7 +1,7 @@
 django:
   hostname: django
   domainname: loc
-  image: sciabarra/alpine-django:1.9.7-1
+  image: sciabarra/alpine-django:2
   expose: [ "8000" ]
   ports:
     - "8001:8001"
@@ -9,7 +9,7 @@ django:
 nginx:
   hostname: nginx
   domainname: loc
-  image: sciabarra/alpine-nginx:1
+  image: sciabarra/alpine-nginx:2
   links:
     - "django:django.loc"
   ports:
