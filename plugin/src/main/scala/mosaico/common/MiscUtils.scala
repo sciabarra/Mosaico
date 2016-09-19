@@ -24,7 +24,16 @@ trait MiscUtils {
     )
   }
 
-  // Utils
+  /**
+    * Ececute a java class with its args,
+    * adding a classpath
+    * and setting the home directory
+    *
+    * @param args
+    * @param home
+    * @param cp
+    * @return
+    */
   def exec(args: Seq[String], home: File, cp: Seq[File]) = {
     Fork.java(ForkOptions(
       runJVMOptions = "-cp" :: cp.map(_.getAbsolutePath).mkString(java.io.File.pathSeparator) :: Nil,
@@ -41,15 +50,33 @@ trait MiscUtils {
       Some(r)
   }*/
 
-  val debugging = System.getProperty("mosaico.debug") != null
+  val debugging = System.getProperty("debug") != null
 
-  val tracing = Option(System.getProperty("mosaico.trace")).map(x => x.split(",").toSet)
+  val tracing = Option(System.getProperty("trace")).map(x => x.split(",").toSet)
 
+  /**
+    * Print a debug message if "deugging"
+    *
+    * Debugging is enabled by the "debug" system property
+    *
+    * @param msg
+    */
   def debug(msg: String) = {
     if (debugging)
       println(s"%% ${msg}")
   }
 
+  /**
+    * Print a trace message if the specified tracing is enabled
+    *
+    * Traces are enabled by the "trace=a,b,c" system property
+    *
+    * The string "a,b,c" will enable traces for "a" "b" and "c"
+    *
+    * @param what
+    * @param msg
+    * @return
+    */
   def trace(what: String, msg: String) = {
     tracing.map { set =>
       if (set(what))

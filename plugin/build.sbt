@@ -38,7 +38,7 @@ publishTo := {
 
 publishArtifact in Test := false
 
-publishArtifact in (Compile, packageDoc) := false
+//publishArtifact in (Compile, packageDoc) := false
 
 pomExtra := (
   <url>https://github.com/sciabarra/Mosaico</url>
@@ -60,3 +60,5 @@ pomExtra := (
       <url>http://michele.sciabarra.com</url>
     </developer>
   </developers>)
+
+sonatypeProfileName := "sciabarra"

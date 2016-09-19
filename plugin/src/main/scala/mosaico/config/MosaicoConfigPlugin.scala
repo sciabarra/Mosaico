@@ -4,6 +4,9 @@ import sbt.Keys._
 import sbt._
 import sbt.plugins.JvmPlugin
 
+/**
+  * Plugin for configurations, see documentation for details.
+  */
 object MosaicoConfigPlugin
   extends AutoPlugin
     with PropertySettings

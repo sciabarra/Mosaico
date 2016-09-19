@@ -5,7 +5,8 @@ import sbt.Keys._
 import sbt.plugins.JvmPlugin
 
 /**
-  * Created by msciab on 13/09/16.
+  * Plugin for generating a  dependencies sbt.
+  * Saves time from writing it manually.
   */
 object MosaicoGeneratorPlugin
   extends AutoPlugin {
@@ -15,7 +16,9 @@ object MosaicoGeneratorPlugin
   object Keys {
     lazy val genDeps = taskKey[Unit]("genDeps")
   }
+
   val autoImport = Keys
+
   import Keys._
 
   /**

@@ -8,6 +8,9 @@ import sbt._, Keys._
 import scala.language.postfixOps
 import MosaicoDockerPlugin.autoImport
 
+/**
+  * Alpine build settings see documentation for details
+  */
 trait AlpineSettings extends MiscUtils {
   this: AutoPlugin =>
 

@@ -13,7 +13,7 @@ import scala.concurrent.duration._
 
 
 /**
-  * Created by msciab on 04/08/16.
+  * Akka common object: initialize an actor system
   */
 object AkkaCommon {
 

@@ -5,6 +5,10 @@ import mosaico.config.MosaicoConfigPlugin
 import sbt._, Keys._
 import java.net._
 
+/**
+  * Download  settings see documentation for details
+  */
+
 trait DownloadSettings
   extends Download
     with MiscUtils {
@@ -31,9 +35,9 @@ trait DownloadSettings
       case 1 =>
         downloadUrl(new URL(args(0)), fileFromUrl(base, args(0)))
       case 2 =>
-        downloadUrl(new URL(args(0)), fileFromString(base, args(1), args(0)))
+        downloadUrl(new URL(args(0)), fileFromStringOrUrl(base, args(1), args(0)))
       case _ =>
-        downloadUrl(new URL(args(0)), fileFromString(base, args(1), args(0)), Some(args.tail.tail.mkString(" ")))
+        downloadUrl(new URL(args(0)), fileFromStringOrUrl(base, args(1), args(0)), Some(args.tail.tail.mkString(" ")))
     }
   }
 

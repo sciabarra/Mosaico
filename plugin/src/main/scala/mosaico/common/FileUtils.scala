@@ -8,7 +8,7 @@ import sbt._
 import scala.io.Source
 
 /**
-  * File relates utils trait
+  * File relates utils
   */
 trait FileUtils {
 
@@ -158,6 +158,36 @@ trait FileUtils {
   }
 
 
+  /**
+    * Contruct a file using the file part of an url
+    *
+    * @param base
+    * @param url
+    * @return
+    */
+  def fileFromUrl(base: File, url: String): File = {
+    //println(s"fileFromUrl ${url}")
+    val u = new URL(url)
+    val f = new File(u.getFile)
+    val name = f.getName
+    if (name.length > 0)
+      new File(base, name)
+    else File.createTempFile("download", ".tmp", base)
+  }
 
+  /**
+    * Construct a file from a string or if the string is "-" from the provided url
+    *
+    * @param base
+    * @param filename
+    * @param url
+    * @return
+    */
+  def fileFromStringOrUrl(base: File, filename: String, url: String): File = {
+    if (filename.equals("-"))
+      fileFromUrl(base, url)
+    else
+      new File(base, filename)
+  }
 
 }

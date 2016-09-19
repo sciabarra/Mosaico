@@ -5,6 +5,9 @@ import sbt.plugins.JvmPlugin
 import sbtdocker.DockerPlugin
 import mosaico.config.MosaicoConfigPlugin
 
+/**
+  * Plugin for docker builds, see documentation for details.
+  */
 object MosaicoDockerPlugin
   extends AutoPlugin
     with DockerSettings

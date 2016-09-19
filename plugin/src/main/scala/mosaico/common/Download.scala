@@ -11,26 +11,10 @@ import akka.util.ByteString
 import scala.collection.immutable
 
 /**
-  * Created by msciab on 12/09/16.
+  * Download urls with Akka
   */
-trait Download {
+trait Download  extends FileUtils {
   import mosaico.common.AkkaCommon._
-  def fileFromUrl(base: File, url: String): File = {
-    //println(s"fileFromUrl ${url}")
-    val u = new URL(url)
-    val f = new File(u.getFile)
-    val name = f.getName
-    if (name.length > 0)
-      new File(base, name)
-    else File.createTempFile("download", ".tmp", base)
-  }
-
-  def fileFromString(base: File, filename: String, url: String): File = {
-    if (filename.equals("-"))
-      fileFromUrl(base, url)
-    else
-      new File(base, filename)
-  }
 
   private var total: Double = 0
   private var counter: Long = 0
@@ -55,6 +39,14 @@ trait Download {
     bs
   }
 
+  /**
+    * Download the url to the file, adds optionally the specified header
+    *
+    * @param url
+    * @param file
+    * @param header
+    * @return
+    */
   def downloadUrl(url: URL, file: File, header: Option[String] = None): Option[File] = {
 
     //println(s"downloadUrl: ${url} ${file} ${header}")

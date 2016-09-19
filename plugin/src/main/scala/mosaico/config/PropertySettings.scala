@@ -6,7 +6,8 @@ import sbt.Keys._
 import sbt._
 
 /**
-  * Created by msciab on 08/02/15.
+  * Settings for properties see documentation for details
+  *
   */
 trait PropertySettings extends FileUtils with MiscUtils {
   this: AutoPlugin =>

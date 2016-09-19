@@ -5,8 +5,7 @@ import sbt.Keys._
 import sbt._
 
 /**
- * Generate versioning informations
- * Created by msciab on 09/02/15.
+ * Generate versioning informations in your jar
  */
 trait VersionSettings {
   this: AutoPlugin =>
