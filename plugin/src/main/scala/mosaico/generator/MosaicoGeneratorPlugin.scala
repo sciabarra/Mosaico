@@ -26,7 +26,7 @@ object MosaicoGeneratorPlugin
     */
   val genDepsTask = genDeps := {
     def norm(s: String) = s.replace("-", "_")
-    val folders = (file(".") ** "test-test-docker.sbt").get.map(_.getParentFile)
+    val folders = (file(".") ** "docker.sbt").get.map(_.getParentFile)
     val projects = folders.map(_.getName).map(norm)
     val projectDefs = folders.
       map(folder =>
