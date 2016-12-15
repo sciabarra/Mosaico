@@ -1,6 +1,11 @@
-#!/bin/sh
-cd /home
-exec /usr/bin/uwsgi --socket  $(hostname -i):8000 \
- --wsgi-file $DJANGO_APP/wsgi.py\
- --master --processes $UWSGI_PROCESSES --threads $UWSGI_THREADS\
- --stats $(hostname -i):8001
+#!/bin/bash
+cd /etc/serf
+join=""
+for i in ${SERF:-serf}
+do join="$join --join $i"
+done
+exec /usr/bin/serf agent \
+  -bind $(hostname -i) \
+  $join
+
+

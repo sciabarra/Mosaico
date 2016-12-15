@@ -1,0 +1,7 @@
+serf:
+  hostname: serf 
+  image: sciabarra/alpine-serf:2
+
+clients:
+  image: sciabarra/alpine-serf:2
+  links: [ "serf" ]

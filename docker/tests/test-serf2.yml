@@ -1,0 +1,22 @@
+serf0:
+  hostname: serf0
+  image: sciabarra/alpine-serf:2
+  environment:
+   - SERF=serf0
+
+serf1:
+  hostname: serf1
+  image: sciabarra/alpine-serf:2
+  environment:
+   - SERF=serf0 serf1
+  links:
+   - serf0 
+
+clients:
+  image: sciabarra/alpine-serf:2
+  environment:
+   - SERF=serf0 serf1
+  links: 
+   - serf0
+   - serf1
+

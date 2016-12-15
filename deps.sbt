@@ -8,5 +8,7 @@ lazy val jdk = (project in file("./docker/alpine/jdk")).enablePlugins(MosaicoDoc
 
 lazy val nginx = (project in file("./docker/alpine/nginx")).enablePlugins(MosaicoDockerPlugin,MosaicoAmmonitePlugin)
 
-addCommandAlias("dockers", "; abuild/docker ; common/docker ; django/docker ; jdk/docker ; nginx/docker")
+lazy val serf = (project in file("./docker/alpine/serf")).enablePlugins(MosaicoDockerPlugin,MosaicoAmmonitePlugin)
+
+addCommandAlias("dockers", "; abuild/docker ; common/docker ; django/docker ; jdk/docker ; nginx/docker ; serf/docker")
     
