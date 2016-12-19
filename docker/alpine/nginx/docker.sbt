@@ -1,18 +1,19 @@
 prpLookup += baseDirectory.value.getParentFile -> "alpine"
 
-val common = (project in file("..")/"common").enablePlugins(MosaicoDockerPlugin)
+val serf = (project in file("..")/"serf").enablePlugins(MosaicoDockerPlugin)
 
-imageNames in docker := Seq(ImageName(prp.value("alpine.nginx")))
+imageNames in docker := Seq(ImageName(prp.value("nginx")))
 
 dockerfile in docker := {
   val base = baseDirectory.value
   new Dockerfile {
-    from((docker in common).value.toString)
-    env("DJANGO_HOST", "django.loc")
+    from((docker in serf).value.toString)
+    add(base/"run.sh", "/services/nginx/run")
     runRaw(s"""|apk add nginx ;
-               |mkdir -p /run/nginx /home/static /home/media ;
+               |mkdir -p /run/nginx ;
+               |chmod +x /services/nginx/run ;
+               |touch /var/log/nginx/access.log ;
+               |echo set /files/etc/nginx/nginx.conf/daemon off | augtool -s
                |""".stripMargin.replace('\n',' '))
-    copy(base/"run.sh", "/services/nginx/run")
-    copy(base/"django.conf.tpl", "/etc/nginx/django.conf.tpl")
   }
 }

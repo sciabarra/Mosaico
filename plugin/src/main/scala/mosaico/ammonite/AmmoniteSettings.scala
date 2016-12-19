@@ -54,16 +54,14 @@ trait AmmoniteSettings {
   }
 
   val predef =
-    """import $ivy.`com.lihaoyi::ammonite-shell:0.7.6`;
+    """import $ivy.`com.lihaoyi::ammonite-shell:0.8.1`;
       |val shellSession = ammonite.shell.ShellSession ();
       |import shellSession._, ammonite.ops._, ammonite.shell._
     """.stripMargin.replaceAll("[\\n\\r]", "")
 
   val ammoniteSettings = Seq(ammTask
     , ivyConfigurations += config("ammonite")
-    , libraryDependencies += "com.lihaoyi" % s"ammonite_${
-      scalaVersion.value
-    }" % "0.7.6" % "ammonite"
+    , libraryDependencies += "com.lihaoyi" % s"ammonite_2.10.5" % "0.8.1" % "ammonite"
     , ammPredef := predef
     , ammScripts := baseDirectory.value
     , ammClasspath <<= update.

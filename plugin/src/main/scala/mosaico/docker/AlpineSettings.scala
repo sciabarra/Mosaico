@@ -1,7 +1,6 @@
 package mosaico.docker
 
 import java.io.File
-
 import mosaico.common.MiscUtils
 import mosaico.config.MosaicoConfigPlugin
 import sbt._, Keys._

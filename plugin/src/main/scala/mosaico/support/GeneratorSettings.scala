@@ -1,25 +1,20 @@
-package mosaico.generator
+package mosaico.support
 
-import sbt._
-import sbt.Keys._
-import sbt.plugins.JvmPlugin
+import sbt._,Keys._
+import SupportPlugin.autoImport
 
 /**
   * Plugin for generating a  dependencies sbt.
   * Saves time from writing it manually.
   */
-object MosaicoGeneratorPlugin
-  extends AutoPlugin {
+trait GeneratorSettings {
+  this: AutoPlugin =>
 
-  override def requires = JvmPlugin
-
-  object Keys {
+  trait GeneratorKeys {
     lazy val genDeps = taskKey[Unit]("genDeps")
   }
 
-  val autoImport = Keys
-
-  import Keys._
+  import autoImport._
 
   /**
     * Generate Subtasks
@@ -46,5 +41,5 @@ object MosaicoGeneratorPlugin
     println("*** Generated deps.sbt, please reload")
   }
 
-  override val projectSettings = Seq(genDepsTask)
+  val generatorSettings = Seq(genDepsTask)
 }

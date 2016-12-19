@@ -2,11 +2,10 @@ package mosaico.docker
 
 import java.io.{FileOutputStream, FileInputStream, File}
 import java.util.zip.{ZipEntry, ZipInputStream}
-
+import java.net._
 import mosaico.common.{MiscUtils, Download}
 import mosaico.config.MosaicoConfigPlugin
 import sbt._, Keys._
-import java.net._
 
 /**
   * Download  settings see documentation for details
