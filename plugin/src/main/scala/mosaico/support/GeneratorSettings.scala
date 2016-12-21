@@ -26,7 +26,7 @@ trait GeneratorSettings {
     val projectDefs = folders.
       map(folder =>
         s"""lazy val ${norm(folder.getName)} = (project in file("${folder}"))
-            |.enablePlugins(MosaicoDockerPlugin,MosaicoAmmonitePlugin)
+            |.enablePlugins(MosaicoDockerPlugin)
             |""".stripMargin.replaceAll("[\\n\\r]", ""))
 
 

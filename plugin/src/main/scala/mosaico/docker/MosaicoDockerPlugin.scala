@@ -11,14 +11,17 @@ import mosaico.config.MosaicoConfigPlugin
 object MosaicoDockerPlugin
   extends AutoPlugin
     with DownloadSettings
-    with AlpineSettings {
+    with AlpineSettings
+    with UnpackSettings {
 
   object autoImport
     extends AlpineKeys
       with DownloadKeys
+      with UnpackKeys
 
   override val projectSettings =
     downloadSettings ++
+      unpackSettings ++
       alpineSettings
 
   override def requires =

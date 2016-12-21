@@ -1,11 +1,10 @@
-# alpine-django
+# mosaico/django:3
 
-Run a django app with wsgi.
+Sample image running django app with wsgi.
 
 App should be placed under /home and need an <app>/wsgi file.
 
-Variables
+## Env variables
 
-DJANGO_APP: name of the app (default: hello)
 UWSGI_PROCESSES: number of processes (default 4)
 UWSGI_THREADS: number of processes (default 2)

@@ -24,6 +24,21 @@ trait MiscUtils {
     )
   }
 
+  def includeExcludeRegex(input: String,
+      regex: String*): Boolean = {
+    if (regex.isEmpty)
+      true
+    else regex.toSeq
+      .map(x => (x(0) == '+') -> x.tail)
+      .map {
+        case (result, re) =>
+          input.matches(re) -> result
+      }
+      .map(x => x._1 == x._2)
+      .reduce(_ && _)
+  }
+
+
   /**
     * Ececute a java class with its args,
     * adding a classpath

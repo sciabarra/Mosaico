@@ -1,4 +1,6 @@
-# Docker
+# sbt-mosaico plugin
+
+Documentation for the `sbt-mosaico` SBT plugin 
 
 Docker Images Building documentation.
 
@@ -9,7 +11,6 @@ Also there is a `sbt-mosaico` support plugin for builds.
 Currently it is actually 3 subplugins:
 
 - [`MosaicoDockerPlugin`](docker.md) with support for building (alpine) docker images
-- [`MosaicoAmmonitePlugin`](ammonite.md) with support for Ammonite scripts
-- [`MosaicoGeneratorPlugin`](generator.md) with support for generate an index of the subprojects.
+- [`MosaicoConfigPlugin`](config.md) with support for shared configuration files
 
 

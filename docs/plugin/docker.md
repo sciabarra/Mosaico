@@ -2,7 +2,7 @@
 
 Enable them with `enablePlugins(MosaicoDockerPlugin)`
 
-## input task `alpineleBuild` {ABUILDIMAGE} {APKFILE} {APKFILE}
+## input task `alpineBuild` {ABUILDIMAGE} {APKFILE} {APKFILE}
 
 Execute a build of am Alpine package file. 
 
@@ -28,3 +28,15 @@ useful to add passwords, cookies, etc.
 
 Note that if any argument starts with "@", 
 its actual value is looked up in the configured [`prp`](config.md) setting.
+
+## input `unzip` {source} {outdir} [-{regex} | +{regex}]
+
+Unzip the {source} file in the {outdir}, excluding (-) or including  (+) paths identified by the {regex}
+
+{source} should be a zip file.
+
+## input `untar` {source} {outdir} [-{regex} | +{regex}]
+
+Untar (and gunzip) the {source} file in the {outdir}, excluding (-) or including  (+) paths identified by the {regex}
+
+{source} should be a tar.gz file.

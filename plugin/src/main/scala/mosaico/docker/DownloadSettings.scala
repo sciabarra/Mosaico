@@ -18,7 +18,6 @@ trait DownloadSettings
 
   trait DownloadKeys {
     lazy val download = inputKey[Option[File]]("download")
-    lazy val unzip = inputKey[Boolean]("unzip")
   }
 
   import MosaicoConfigPlugin.autoImport._
@@ -45,41 +44,6 @@ trait DownloadSettings
     }
   }
 
-  val unzipTask = unzip := {
-    val args: Seq[String] = replaceAtWithMap(Def.spaceDelimited("<arg>").parsed, prp.value)
-    try {
-      if (args.length == 0)
-        throw new Exception("unzip files from base directory in the target folder\nusage: unzip <file.zip>")
-      var outDir = baseDirectory.value  / "target"
-      val zipFile = baseDirectory.value / args(0)
-      var zip = new ZipInputStream(new FileInputStream(zipFile))
-      val buffer: Array[Byte] = new Array[Byte](1024)
-      var entry = zip.getNextEntry
-      while (entry != null) {
-        println(entry.getName)
-        val file = outDir / entry.getName.replace('/', File.separatorChar)
-        if (entry.isDirectory) {
-          file.mkdirs
-        } else {
-          if (!file.getParentFile.exists)
-            file.getParentFile.mkdirs()
-          val fos: FileOutputStream = new FileOutputStream(file)
-          var len = zip.read(buffer)
-          while (len > 0) {
-            fos.write(buffer, 0, len)
-            len = zip.read(buffer)
-          }
-          fos.close
-        }
-        entry = zip.getNextEntry
-      }
-      true
-    } catch {
-      case e: Throwable =>
-        println(e.getMessage)
-        false
-    }
-  }
 
-  val downloadSettings = Seq(downloadTask, unzipTask)
+  val downloadSettings = Seq(downloadTask)
 }

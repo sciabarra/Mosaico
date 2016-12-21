@@ -1,8 +1,9 @@
-# alpine-serf 
+# mosaico/serf:3
 
-This image starts serf and tries to join the "hq" host.
+This image starts serf and tries to join the  hosts pointed by SERF
 
-The host name  can be changes with the env variable HQ
+SERF defaults to localhost so it jois itself if not specified otherwise
+
 
 
 

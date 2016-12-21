@@ -2,16 +2,14 @@ prpLookup += baseDirectory.value.getParentFile -> "alpine"
 
 imageNames in docker := Seq(ImageName(prp.value("serf")))
 
-val base = (project in file("..") / "base").enablePlugins(MosaicoDockerPlugin)
-
 dockerfile in docker := {
   Def.sequential(
     download.toTask(s" @serf.url serf.zip"),
-    unzip.toTask(s" serf.zip")
+    unzip.toTask(s" serf.zip target")
   ).value
   val basedir = baseDirectory.value
   new Dockerfile {
-    from((docker in base).value.toString)
+    from(prp.value("base"))
     add(basedir / "target" / "serf", "/usr/bin/")
     runRaw(
       s"""|mkdir /etc/serf ;

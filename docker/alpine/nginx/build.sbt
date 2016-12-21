@@ -1,13 +1,11 @@
 prpLookup += baseDirectory.value.getParentFile -> "alpine"
 
-val serf = (project in file("..")/"serf").enablePlugins(MosaicoDockerPlugin)
-
 imageNames in docker := Seq(ImageName(prp.value("nginx")))
 
 dockerfile in docker := {
   val base = baseDirectory.value
   new Dockerfile {
-    from((docker in serf).value.toString)
+    from(prp.value("serf"))
     add(base/"run.sh", "/services/nginx/run")
     runRaw(s"""|apk add nginx ;
                |mkdir -p /run/nginx ;

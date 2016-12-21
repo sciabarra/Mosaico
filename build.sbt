@@ -1,10 +1,10 @@
 name := "mosaico"
 
-version := "0.1"
+version := "0.3"
 
 scalaVersion := "2.11.8"
 
-enablePlugins(MosaicoConfigPlugin,SupportPlugin)
+enablePlugins(SupportPlugin)
 
+lazy val alpine = project in file("docker") / "alpine"
 
-val root = project in file(".")

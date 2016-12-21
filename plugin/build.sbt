@@ -6,7 +6,7 @@ name := "sbt-mosaico"
 
 organization := "com.sciabarra"
 
-scalaVersion := "2.10.5"
+scalaVersion := "2.10.6"
 
 scalacOptions += "-feature"
 
@@ -20,6 +20,7 @@ libraryDependencies ++= Seq(
   , "com.typesafe.akka"          %  "akka-stream-experimental_2.10"    % "2.0.3"
   , "com.typesafe.akka"          %  "akka-http-core-experimental_2.10" % "2.0.3"
   , "com.typesafe.akka"          %  "akka-http-experimental_2.10"      % "2.0.3"
+  , "org.rauschig"               % "jarchivelib"                       % "0.7.0"
   )
 
 addSbtPlugin("se.marcuslonnberg" % "sbt-docker" % "1.4.0")
