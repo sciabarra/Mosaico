@@ -21,6 +21,14 @@ lazy val python2 = project
   .enablePlugins(MosaicoDockerPlugin)
   .aggregate(serf, abuild)
 
+lazy val hadoop = project
+  .enablePlugins(MosaicoDockerPlugin)
+  .aggregate(jdk8)
+
+lazy val spark = project
+  .enablePlugins(MosaicoDockerPlugin)
+  .aggregate(hadoop)
+
 lazy val allImages = project
-  .aggregate(abuild, base, serf, nginx, jdk8, python2)
+  .aggregate(abuild, base, serf, nginx, jdk8, python2, hadoop, spark)
 
