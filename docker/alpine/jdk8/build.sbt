@@ -10,7 +10,7 @@ dockerfile in docker := {
   ).value
   val basedir = baseDirectory.value
   new Dockerfile {
-    from(prp.value("serf"))
+    from(prp.value("base"))
     copy(basedir/"glibc.apk", "/tmp/")
     runRaw("apk add --allow-untrusted /tmp/glibc.apk  && rm /tmp/glibc.apk")
     add(basedir/"usr", "/usr/")

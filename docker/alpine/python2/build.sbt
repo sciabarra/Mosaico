@@ -6,7 +6,7 @@ dockerfile in docker := {
   val apk =
     alpineBuild.toTask(" @abuild py-uwsgi.sh py-uwsgi.apk").value
   new Dockerfile {
-    from(prp.value("serf"))
+    from(prp.value("base"))
     runRaw(s"apk add sqlite python2 py2-pip py-psycopg2")
     copy(apk, "/tmp/")
     runRaw("apk add --allow-untrusted /tmp/*.apk  && rm /tmp/*.apk")
