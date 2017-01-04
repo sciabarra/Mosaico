@@ -2,9 +2,12 @@ prpLookup += baseDirectory.value.getParentFile -> "alpine"
 
 imageNames in docker := Seq(ImageName(prp.value("base")))
 
+val abuild = (project in file("..")/"abuild").enablePlugins(MosaicoDockerPlugin)
+
 dockerfile in docker := {
   val basedir = baseDirectory.value
   val apk = Def.sequential(
+    docker in abuild,
     download.toTask(s" @base.serf.url serf.zip"),
     unzip.toTask(s" serf.zip target"),
     alpineBuild.toTask(" @abuild daemontools.sh daemontools.apk")

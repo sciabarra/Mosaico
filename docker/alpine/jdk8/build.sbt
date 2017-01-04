@@ -2,6 +2,8 @@ prpLookup += baseDirectory.value.getParentFile -> "alpine"
 
 imageNames in docker := Seq(ImageName(prp.value("jdk8")))
 
+val base = (project in file("..")/"base").enablePlugins(MosaicoDockerPlugin)
+
 dockerfile in docker := {
   Def.sequential(
     download.toTask(s" @jdk8.glibc.url glibc.apk"),
@@ -10,7 +12,7 @@ dockerfile in docker := {
   ).value
   val basedir = baseDirectory.value
   new Dockerfile {
-    from(prp.value("base"))
+    from( (docker in base).value.toString)
     copy(basedir/"glibc.apk", "/tmp/")
     runRaw("apk add --allow-untrusted /tmp/glibc.apk  && rm /tmp/glibc.apk")
     add(basedir/"usr", "/usr/")
