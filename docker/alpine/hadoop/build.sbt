@@ -12,8 +12,18 @@ dockerfile in docker := {
     add(base/"hadoop.tgz", "/usr")
     runRaw("ln -sf /usr/hadoop-* /usr/hadoop ; chmod +x /usr/hadoop/bin/* /usr/hadoop/sbin/*")
     env("HADOOP_PREFIX", "/usr/hadoop")
+    runRaw(s"""
+           |apk add openssh ;
+           |ssh-keygen -f /etc/ssh/ssh_host_rsa_key -N '' ;
+           |ssh-keygen -f /root/.ssh/id_rsa -N '' ;
+           |cp /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys ;
+           |echo set /files/etc/ssh/ssh_config/StrictHostKeyChecking no | augtool -s ;
+           |echo set /files/etc/ssh/sshd_config/PermitRootLogin yes | augtool -s ;
+           |""".stripMargin.replace('\n', ' '))
   }
 }
+
+val hadoop_single = project.enablePlugins(MosaicoDockerPlugin)
 
 //val hadoop_namenode = project
 
