@@ -10,6 +10,9 @@ lazy val nginx = project
 lazy val jdk8 = project
   .enablePlugins(MosaicoDockerPlugin)
 
+lazy val sbt13 = project
+    .enablePlugins(MosaicoDockerPlugin)
+
 lazy val python2 = project
   .enablePlugins(MosaicoDockerPlugin)
 
