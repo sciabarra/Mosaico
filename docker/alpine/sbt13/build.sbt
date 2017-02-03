@@ -13,7 +13,7 @@ dockerfile in docker := {
     copy(baseDir/"build.properties", "/tmp/project/build.properties")
     copy(baseDir/"plugins.sbt", "/tmp/project/plugins.sbt")
     workDir("/tmp")
-    runRaw("touch build.sbt ; chmod +x /usr/bin/sbt ; sbt about")
+    runRaw("touch build.sbt ; chmod +x /usr/bin/sbt ; sbt update")
     workDir("/home")
   }
 }
