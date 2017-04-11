@@ -1,0 +1,8 @@
+#cloud-config
+password: trumpet
+ssh_pwauth: True
+chpasswd: { expire: False }
+runcmd:
+ - ifdown enp0s3
+ - ifup enp0s3
+ssh_authorized_keys:

@@ -1,0 +1,8 @@
+127.0.0.1 localhost.localdomain localhost
+192.168.1.200 atom0.kube atom0
+192.168.1.201 atom1.kube atom1
+192.168.1.202 atom2.kube atom2
+192.168.1.203 atom3.kube atom3
+192.168.1.204 atom4.kube atom4
+192.168.1.205 atom5.kube atom5
+192.168.1.206 atom6.kube atom6

@@ -1,0 +1,10 @@
+- template: src=config dest=/etc/kubernetes/config mode=0644
+  notify:
+    - restart kubelet
+
+- template: src=kubelet dest=/etc/kubernetes/kubelet mode=0644
+  notify:
+    - restart kubelet
+
+- service: name=kubelet state=started enabled=yes
+- service: name=kube-proxy state=started enabled=yes

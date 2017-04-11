@@ -1,0 +1,5 @@
+- hosts: masters
+  become: yes
+  roles:
+    - certs
+    - kube-master

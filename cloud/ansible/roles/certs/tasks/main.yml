@@ -1,0 +1,63 @@
+- name: "dowload easy rsa"
+  become: yes
+  get_url:
+    url:     "https://storage.googleapis.com/kubernetes-release/easy-rsa/easy-rsa.tar.gz"
+    dest:    "/opt/easy-rsa.tar.gz"
+
+- name: "unarchive easy rsa"
+  become: yes
+  unarchive:
+    copy: no
+    src: "/opt/easy-rsa.tar.gz"
+    dest: "/opt"
+    creates: "/opt/easy-rsa-master"
+
+- name: make pki
+  become: yes
+  command: ./easyrsa init-pki
+  args:
+    chdir: /opt/easy-rsa-master/easyrsa3
+    creates: /opt/easy-rsa-master/easyrsa3/pki
+
+- name: make ca.cert
+  become: yes
+  command: ./easyrsa --batch "--req-cn={{kube_master}}@`date +%s`" build-ca nopass
+  args:
+    chdir: /opt/easy-rsa-master/easyrsa3
+    creates: /opt/easy-rsa-master/easyrsa3/pki/ca.crt
+
+- name: make server.key
+  become: yes
+  command: "./easyrsa --subject-alt-name=IP:{{kube_master}} build-server-full server nopass"
+  args:
+    chdir: /opt/easy-rsa-master/easyrsa3
+    creates: /opt/easy-rsa-master/easyrsa3/pki/private/server.key
+
+- file: path=/etc/kubernetes/certs state=directory mode=0755
+
+- name: copy ca.crt
+  become: yes
+  copy:
+    owner: kube
+    group: kube
+    remote_src: true
+    src: /opt/easy-rsa-master/easyrsa3/pki/ca.crt
+    dest: /etc/kubernetes/certs/ca.crt
+
+- name: copy server.crt
+  become: yes
+  copy:
+    src: /opt/easy-rsa-master/easyrsa3/pki/issued/server.crt
+    dest: /etc/kubernetes/certs/server.crt
+    owner: kube
+    group: kube
+    remote_src: true
+
+- name: copy server.key
+  become: yes
+  copy:
+   src: /opt/easy-rsa-master/easyrsa3/pki/private/server.key
+   dest: /etc/kubernetes/certs/server.key
+   owner: kube
+   group: kube
+   remote_src: true

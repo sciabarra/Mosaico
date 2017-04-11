@@ -1,0 +1,6 @@
+- name: configure etcd
+  template: src=etcd.conf dest=/etc/etcd/etcd.conf mode=0644
+
+- name: enable etcd
+  become: yes
+  service: name=etcd.service state=started enabled=yes

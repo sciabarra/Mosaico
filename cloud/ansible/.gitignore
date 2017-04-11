@@ -1,0 +1,6 @@
+id_rsa
+id_rsa.pub
+old/
+.ipynb_checkpoints/
+*.retry
+inventory.*

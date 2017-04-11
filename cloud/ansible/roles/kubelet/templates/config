@@ -1,0 +1,2 @@
+# How the controller-manager, scheduler, and proxy find the apiserver
+KUBE_MASTER="--master=http://{{kube_master}}:8080"

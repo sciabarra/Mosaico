@@ -1,0 +1,23 @@
+- hosts: all
+  roles:
+    - common
+
+- hosts: vbox
+  become: yes
+  roles:
+    - dns
+
+- hosts: masters
+  become: yes
+  roles:
+    - registry
+    - etcd
+    - flannel
+    - certs
+    - kube-master
+
+- hosts: nodes
+  become: yes
+  roles:
+    - kubelet
+    - flannel
