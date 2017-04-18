@@ -1,0 +1,18 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: jenkins-svc
+spec:
+  type: NodePort
+  ports:
+  - port: 8080
+    name: jenkins-ui
+    nodePort: 32080
+    protocol: TCP
+  - port: 50000
+    name: jenkins-cmd
+    nodePort: 32050
+    protocol: TCP
+  selector:
+    app: jenkins
