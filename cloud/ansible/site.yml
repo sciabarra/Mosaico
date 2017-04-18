@@ -2,6 +2,11 @@
   roles:
     - common
 
+- hosts: aws
+  become: yes
+  roles:
+    - hosts
+
 - hosts: vbox
   become: yes
   roles:

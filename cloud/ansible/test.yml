@@ -1,5 +1,4 @@
-- hosts: masters
+- hosts: aws
   become: yes
   roles:
-    - certs
-    - kube-master
+    - hosts
