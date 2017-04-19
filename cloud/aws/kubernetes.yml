@@ -185,6 +185,8 @@ Resources:
       Tags:
         - Key: Application
           Value: !Ref 'AWS::StackId'
+        - Key: Name
+          Value: 'master'
       NetworkInterfaces:
         - GroupSet:
             - !Ref InstanceSecurityGroup
@@ -202,6 +204,8 @@ Resources:
       Tags:
         - Key: Application
           Value: !Ref 'AWS::StackId'
+        - Key: Name
+          Value: 'node1'
       NetworkInterfaces:
         - GroupSet:
             - !Ref InstanceSecurityGroup
@@ -219,6 +223,8 @@ Resources:
       Tags:
         - Key: Application
           Value: !Ref 'AWS::StackId'
+        - Key: Name
+          Value: 'node2'
       NetworkInterfaces:
         - GroupSet:
             - !Ref InstanceSecurityGroup
