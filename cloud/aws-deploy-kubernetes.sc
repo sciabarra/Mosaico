@@ -31,11 +31,11 @@ val instances = for {
 
 println(instances)
 
-val master = instances.filter(_.name.getOrElse("") == "master")
-val nodes = instances.filter(_.name.getOrElse("") != "master")
+val master = instances.filter(_.state == "running").filter(_.name.getOrElse("") == "master")
+val nodes = instances.filter(_.state == "running").filter(_.name.getOrElse("") != "master")
 
-val ids = instances.filter(_.state == "running").map(_.id)
-val ips = instances.filter(_.state == "running").map(i => i.privateIp -> i.publicIp)
+val ids = instances.map(_.id)
+val ips = instances.map(i => i.privateIp -> i.publicIp)
 
 if(master.nonEmpty) {
 
