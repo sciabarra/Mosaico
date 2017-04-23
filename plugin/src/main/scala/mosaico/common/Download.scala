@@ -7,13 +7,15 @@ import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.HttpRequest
 import akka.http.scaladsl.model.headers.RawHeader
 import akka.util.ByteString
+import sbt.URL
 
 import scala.collection.immutable
 
 /**
   * Download urls with Akka
   */
-trait Download  extends FileUtils {
+trait Download extends FileUtils {
+
   import mosaico.common.AkkaCommon._
 
   private var total: Double = 0
@@ -39,6 +41,14 @@ trait Download  extends FileUtils {
     bs
   }
 
+
+  def downloadUrlHttps(url: URL, file: File) = {
+    println(s"<<< ${url}")
+    sbt.IO.download(url, file)
+    println(s">>> ${file}")
+    Some(file)
+  }
+
   /**
     * Download the url to the file, adds optionally the specified header
     *
@@ -54,9 +64,11 @@ trait Download  extends FileUtils {
     val incomplete = new File(file.getAbsolutePath + ".dld")
 
     val headerSeq = header.map {
-      s => val a: Array[String] = s.split(":")
+      s =>
+        val a: Array[String] = s.split(":")
         immutable.Seq(new RawHeader(a.head, a.tail.mkString(":")))
     }.getOrElse(Nil)
+
 
     val toDownload = if (file.exists()) {
       if (!incomplete.exists()) {
@@ -70,11 +82,16 @@ trait Download  extends FileUtils {
       }
     } else true
 
-    if (toDownload) {
+    if (toDownload && url.getProtocol == "https") {
+      // workaround for https until sbt upgrade to 2.11/2.12
+      println(s"<<< ${url}")
+      sbt.IO.download(url, file)
+      println(s">>> ${file}")
+    } else if (toDownload && url.getProtocol == "http") {
 
       val req = HttpRequest(uri = url.toString, headers = headerSeq)
 
-      println(req)
+      println(s"<<< ${url}")
       var res = waitFor(Http().singleRequest(req))
       while (res.getHeader("Location").nonEmpty) {
         val redir = res.getHeader("Location").get.value
@@ -97,8 +114,10 @@ trait Download  extends FileUtils {
       )
       if (res.status.intValue == 200)
         incomplete.delete()
+      println(s">>> ${file}")
     }
     Some(file)
   }
+
 
 }

@@ -23,6 +23,8 @@ trait AlpineSettings extends MiscUtils {
   val alpineBuildTask = alpineBuild := {
     val args: Seq[String] = replaceAtWithMap(Def.spaceDelimited("<arg>").parsed, prp.value)
 
+    println("*********")
+
     if (args.length < 3) {
       println("usage: alpineBuild {ALPINEBUILDIMAGE} {APKBUILD} {APKFILE}")
       Seq()
@@ -43,6 +45,8 @@ trait AlpineSettings extends MiscUtils {
             | -v ${target}:/home/packager/packages
             | ${buildImage} ${in} ${out}
             |""".stripMargin.replaceAll("[\\r\\n]", "")
+
+      println(cmd)
 
       if (inFile.exists) {
         if (!outFile.exists) {

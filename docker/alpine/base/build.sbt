@@ -13,7 +13,7 @@ dockerfile in docker := {
     alpineBuild.toTask(" @abuild daemontools.sh daemontools.apk")
   ).value
   new Dockerfile {
-    from("alpine:edge")
+    from("alpine:3.5")
     copy(apk, "/tmp/")
     runRaw(
       s"""|apk update ;

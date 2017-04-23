@@ -1,3 +1,0 @@
-#!/bin/bash
-export KUBECONFIG="$(dirname $0)/aws/kubeconfig"
-kubectl "$@"

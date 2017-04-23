@@ -99,8 +99,8 @@ EOF
 build() {
 	cd "$_builddir"
 	echo "${CC:-"gcc"} ${CFLAGS}" > conf-cc
-        echo "${CC:-"gcc"} ${LDFLAGS}" > conf-ld
-	touch > home
+    echo "${CC:-"gcc"} ${LDFLAGS}" > conf-ld
+    echo >home
 	make PATH="/usr/bin:/bin" || return 1
 }
 

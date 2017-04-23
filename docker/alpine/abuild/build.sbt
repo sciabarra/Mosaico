@@ -5,7 +5,7 @@ imageNames in docker := Seq(ImageName(prp.value("abuild")))
 dockerfile in docker := {
   val buildSh = (baseDirectory.value / "build.sh")
   new Dockerfile {
-    from("alpine:edge")
+    from("alpine:3.5")
     runRaw("apk update")
     runRaw("apk -U add alpine-sdk git curl sudo bash python2 python2-dev py2-pip nodejs nodejs-dev file linux-headers")
     runRaw("pip install --upgrade setuptools")

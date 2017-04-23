@@ -1,0 +1,8 @@
+abuild=eu.gcr.io/sciabarra-com/mosaico-abuild:3
+base=eu.gcr.io/sciabarra-com/mosaico-base:3
+nginx=eu.gcr.io/sciabarra-com/mosaico-nginx:3
+python2=eu.gcr.io/sciabarra-com/mosaico-python2:3
+jdk8=eu.gcr.io/sciabarra-com/mosaico-jdk8:3
+hadoop=eu.gcr.io/sciabarra-com/mosaico-hadoop:3
+spark=eu.gcr.io/sciabarra-com/mosaico-spark:3
+sbt13=eu.gcr.io/sciabarra-com/mosaico-sbt13:3

@@ -23,7 +23,7 @@ dockerfile in docker := {
   }
 }
 
-val hadoop_single = project.enablePlugins(MosaicoDockerPlugin)
+//val hadoop_single = project.enablePlugins(MosaicoDockerPlugin)
 
 //val hadoop_namenode = project
 
