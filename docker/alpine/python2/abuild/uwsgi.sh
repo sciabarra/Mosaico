@@ -16,10 +16,6 @@ builddir="$srcdir/$pkgname-$pkgver"
 
 build() {
 	cd "$builddir/"
-	echo "****"
-	pwd
-	ls
-	echo "****"
 	python setup.py build || return 1
 }
 

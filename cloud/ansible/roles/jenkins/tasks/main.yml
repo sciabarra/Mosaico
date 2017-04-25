@@ -1,0 +1,15 @@
+- name: install git
+  yum:
+    name: git
+    state: present
+
+- name: install wget
+  yum:
+    name: wget
+    state: present
+
+- name: install java
+  yum:
+    name: java
+    state: present
+

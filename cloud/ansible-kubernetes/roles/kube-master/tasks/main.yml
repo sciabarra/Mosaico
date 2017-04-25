@@ -1,3 +1,8 @@
+- file:
+    path: /etc/kubernetes
+    state: directory
+    mode: 0755
+
 - name: configure apiserver
   template: src=apiserver dest=/etc/kubernetes/apiserver mode=0644
 

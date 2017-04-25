@@ -1,0 +1,20 @@
+---
+- name: add docker repo
+  shell: |
+     yum-config-manager --add-repo \
+        https://download.docker.com/linux/centos/docker-ce.repo \
+     && yum update -y && touch /etc/yum-update.done
+
+- name: upgrade all packages
+  yum:
+    name: '*'
+    state: latest
+
+- name: install docker
+  yum:
+    name: docker-ce
+    state: present
+
+- name: enabling docker
+  become: yes
+  service: name=docker.service state=started enabled=yes

@@ -1,3 +1,8 @@
+- name: install flannel
+  yum:
+    name: flannel
+    state: present
+
 - name: move off flanneld
   become: yes
   command: creates=/etc/sysconfig/flanneld.old mv /etc/sysconfig/flanneld /etc/sysconfig/flanneld.old
@@ -8,17 +13,17 @@
 
 - name: flanneld-conf.json
   become: yes
-  template: src=flanneld-conf.json dest=/etc/kubernetes/flanneld-conf.json mode=0644
+  template: src=flanneld-conf.json dest=/etc/flanneld-conf.json mode=0644
 
 - name: configure flanneld
   become: yes
   when: inventory_hostname == kube_master_host
   shell:
-    creates: /etc/kubernetes/flanneld-conf.done
+    creates: /etc/flanneld-conf.done
     cmd: |
        curl -L http://localhost:2379/v2/keys/atomic.io/network/config \
-         -XPUT --data-urlencode value@/etc/kubernetes/flanneld-conf.json\
-        && touch /etc/kubernetes/flanneld-conf.done
+         -XPUT --data-urlencode value@/etc/flanneld-conf.json\
+        && touch /etc/flanneld-conf.done
 
 - name: enabling flanneld
   become: yes

@@ -8,3 +8,4 @@ enablePlugins(SupportPlugin)
 
 lazy val alpine = project in file("docker") / "alpine"
 
+lazy val cloud = project

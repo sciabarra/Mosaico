@@ -1,3 +1,8 @@
+- file:
+    path: /etc/kubernetes
+    state: directory
+    mode: 0755
+
 - template: src=config dest=/etc/kubernetes/config mode=0644
   notify:
     - restart kubelet
