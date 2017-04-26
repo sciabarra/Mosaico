@@ -1,0 +1,13 @@
+[Unit]
+Description=Jenkins
+After=network.target
+
+[Service]
+Type=simple
+User=jenkins
+WorkingDirectory=/opt/jenkins
+ExecStart=/bin/java -jar jenkins.war
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target

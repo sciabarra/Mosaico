@@ -3,3 +3,7 @@
   roles:
     - docker
 
+- hosts: masters
+  become: yes
+  roles:
+    - jenkins

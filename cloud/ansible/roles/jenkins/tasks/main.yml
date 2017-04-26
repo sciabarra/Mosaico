@@ -13,3 +13,24 @@
     name: java
     state: present
 
+- user:
+    name: jenkins
+    uid: 990
+    group: docker
+    shell: /bin/bash
+    state: present
+    home: /opt/jenkins
+    createhome: yes
+
+- name: "dowload jenkins"
+  get_url:
+    url:   "http://mirrors.jenkins.io/war-stable/latest/jenkins.war"
+    dest:  "/opt/jenkins/jenkins.war"
+    owner: jenkins
+
+- name: jenkins service
+  template: src=jenkins.service dest=/etc/systemd/system/jenkins.service mode=644
+  notify:
+    - reload systemd
+
+- service: name=jenkins state=started enabled=yes

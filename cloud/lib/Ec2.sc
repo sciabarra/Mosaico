@@ -1,5 +1,5 @@
-import $ivy.`com.amazonaws:aws-java-sdk:1.11.22`
 import $exec.Params
+import $ivy.`com.amazonaws:aws-java-sdk:1.11.22`
 
 import ammonite.ops._
 import ammonite.ops.ImplicitWd._
@@ -20,18 +20,22 @@ case class Inst(id: String,
 
 def ec2instName(inst: Instance) = inst.getTags.asScala.filter(_.getKey=="Name").map(_.getValue).headOption
 
-def ec2instances() = for {
-  reservation <- ec2.describeInstances.getReservations.asScala
-  instance <- reservation.getInstances.asScala
-  if instance.getState.getName == "running"
-} yield {
-  Inst(
-    id= instance.getInstanceId,
-    state = instance.getState.getName,
-    name= ec2instName(instance),
-    privateIp= instance.getPrivateIpAddress,
-    publicIp= instance.getPublicIpAddress
-  )
+def ec2instances(running: Boolean = true) = {
+  val all = for {
+    reservation <- ec2.describeInstances.getReservations.asScala
+    instance <- reservation.getInstances.asScala
+  } yield {
+    Inst(
+      id= instance.getInstanceId,
+      state = instance.getState.getName,
+      name= ec2instName(instance),
+      privateIp= instance.getPrivateIpAddress,
+      publicIp= instance.getPublicIpAddress
+    )
+  }
+  if(running)
+   all.filter(_.state == "running")
+  else all
 }
 
 def ec2ipsByName(names: String) = {
@@ -39,3 +43,7 @@ def ec2ipsByName(names: String) = {
   ec2instances().filter(x => name1.indexOf(s",${x.name.getOrElse("")},") != -1 ).
     map(_.publicIp)
 }
+
+def ec2start(ids: String*) = ec2.startInstances(new StartInstancesRequest().withInstanceIds(ids: _*))
+
+def ec2stop(ids: String*) = ec2.stopInstances(new StopInstancesRequest().withInstanceIds(ids: _*))

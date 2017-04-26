@@ -7,3 +7,4 @@ val imageId = "ami-ae7bfdb8" //centos standard
 val instanceType = "t2.small"
 val keyName = "atomic"
 val template = pwd/'conf/"cloudformation.yml"
+val imageUser = "centos"
