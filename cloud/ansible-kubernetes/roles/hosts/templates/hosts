@@ -1,5 +1,0 @@
-127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
-::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
-{% for item in groups['aws'] %}
-{{ hostvars[item]['local_ip'] }} ip-{{hostvars[item]['local_ip'] | regex_replace('\\.', '-') }}.ec2.internal
-{% endfor %}
