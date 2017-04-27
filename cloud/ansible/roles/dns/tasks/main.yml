@@ -1,2 +1,0 @@
----
-- copy: src=resolv.conf dest=/etc/resolv.conf
