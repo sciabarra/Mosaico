@@ -1,0 +1,16 @@
+[Unit]
+Description=Kubernetes Scheduler Plugin
+Documentation=https://github.com/GoogleCloudPlatform/kubernetes
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutStartSec=0
+Restart=always
+ExecStartPre=-/usr/bin/docker stop %n
+ExecStartPre=-/usr/bin/docker rm %n
+ExecStartPre=/usr/bin/docker pull registry.centos.org/centos/kubernetes-scheduler
+ExecStart=/usr/bin/docker run --rm --net=host -v /etc/kubernetes:/etc/kubernetes:z --name %n registry.centos.org/centos/kubernetes-scheduler
+
+[Install]
+WantedBy=multi-user.target

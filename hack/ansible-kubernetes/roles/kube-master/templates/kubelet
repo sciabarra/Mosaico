@@ -1,0 +1,9 @@
+# The address for the info server to serve on (set to 0.0.0.0 or "" for all interfaces)
+KUBELET_ADDRESS="--address={{local_ip}}"
+
+# You may leave this blank to use the actual hostname
+#KUBELET_HOSTNAME="--hostname_override=192.168.122.1"
+KUBELET_HOSTNAME=""
+
+# location of the api-server
+KUBELET_API_SERVER="--api_servers=http://{{kube_master}}:8080"
