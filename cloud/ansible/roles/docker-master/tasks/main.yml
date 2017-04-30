@@ -1,0 +1,34 @@
+- get_url:
+    url:   "https://bootstrap.pypa.io/get-pip.py"
+    dest:  "/etc/get-pyp.py"
+
+- command: python /etc/get-pyp.py
+  args:
+    creates: /bin/pip
+
+- pip: name=docker-py
+
+- file: path=/info state=directory
+
+- template: src=htpasswd dest=/info/htpasswd
+- template: src=domain.key dest=/info/domain.key
+- template: src=domain.crt dest=/info/domain.crt
+
+
+- name: registry present
+  docker_container:
+    name: registry
+    state: started
+    image: registry:2
+    restart: yes
+    ports:
+      - "500:5000"
+    env:
+      REGISTRY_AUTH: htpasswd
+      REGISTRY_AUTH_HTPASSWD_REALM: Registry
+      REGISTRY_AUTH_HTPASSWD_PATH: /info/htpasswd
+      REGISTRY_HTTP_TLS_CERTIFICATE: /info/domain.crt
+      REGISTRY_HTTP_TLS_KEY: /info/domain.key
+    volumes:
+      /info:/info
+

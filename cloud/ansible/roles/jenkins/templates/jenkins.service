@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 Type=simple
-User=jenkins
+User=centos
 WorkingDirectory=/opt/jenkins
 ExecStart=/bin/java -jar jenkins.war
 Restart=on-abort

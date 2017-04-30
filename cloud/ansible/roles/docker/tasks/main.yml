@@ -18,3 +18,34 @@
 - name: enabling docker
   become: yes
   service: name=docker.service state=started enabled=yes
+
+- name: adding user centos to docker group
+  user:
+    name: centos
+    groups: docker
+    append: yes
+
+# note ports below 1024 are NOT public
+- name: insecure registry
+  lineinfile:
+    create: yes
+    dest: /etc/sysconfig/docker
+    line: 'DOCKER_OPTS="--insecure-registry registry.loc:500"'
+  notify:
+    - restart docker
+
+- name: registry
+  lineinfile:
+    dest: /etc/hosts
+    line: '10.0.0.5 register.loc'
+
+- file: path=/etc/docker/certs.d/register.loc:500 state=directory
+- template: src=ca.crt dest=/etc/docker/certs.d/register.loc:500/ca.crt
+  notify:
+    - restart docker
+
+- template: src=ca.crt dest=/etc/pki/ca-trust/source/anchors/register.loc.crt
+  notify:
+    - update ca trust
+
+

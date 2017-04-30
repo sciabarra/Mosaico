@@ -13,20 +13,17 @@
     name: java
     state: present
 
-- user:
-    name: jenkins
-    uid: 990
-    group: docker
-    shell: /bin/bash
-    state: present
-    home: /opt/jenkins
-    createhome: yes
+- file:
+    path: /opt/jenkins
+    state: directory
+    owner: root
+    mode: 0755
 
 - name: "dowload jenkins"
   get_url:
     url:   "http://mirrors.jenkins.io/war-stable/latest/jenkins.war"
     dest:  "/opt/jenkins/jenkins.war"
-    owner: jenkins
+    owner: centos
 
 - name: jenkins service
   template: src=jenkins.service dest=/etc/systemd/system/jenkins.service mode=644

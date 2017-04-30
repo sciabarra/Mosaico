@@ -20,7 +20,7 @@ import scala.io._
   rm ! inv
   write(inv, inventory.mkString("\n"))
   println("wrote " + inv)
-
+  inv.toString
 }
 
 @main def create(stackName: String) = {
@@ -39,7 +39,7 @@ import scala.io._
 }
 
 @main def list(stackName: String) = {
-  val instances = instancesInStack(stackName,false)
+  val instances = instancesInStack(stackName, false)
   println("ID\t\t\tNAME\tSTATE\tPRIVIP\t\tPUBIP")
   for (i <- instances)
     println(s"${i.id}\t${i.name.getOrElse("-")}\t${i.state}\t${i.privateIp}\t${i.publicIp}")
@@ -60,17 +60,20 @@ import scala.io._
 }
 
 @main def start(stackName: String) = {
- ec2start(instancesInStack(stackName, false).map(_.id): _*)
+  ec2start(instancesInStack(stackName, false).map(_.id): _*)
 }
 
 @main def stop(stackName: String) = {
- ec2stop(instancesInStack(stackName).map(_.id): _*)
+  ec2stop(instancesInStack(stackName).map(_.id): _*)
 }
 
 @main def swarm(stackName: String, master: String, nodes: Seq[String]) {
   exec("sudo docker swarm leave --force")(stackName, master)
   val res = execMap("sudo docker swarm init")(stackName, master)
   val out = res(master).get.out.lines
-  val cmd = "sudo docker swarm leave ; sudo "+out(4)+"\n"++out(5)+"\n"+out(6)
+  val cmd = "sudo docker swarm leave ; sudo " + out(4) + "\n" ++ out(5) + "\n" + out(6)
   exec(cmd)(stackName, nodes.mkString(","))
 }
+
+@main def ansible(stackName: String, file:String="site.yml"): Unit =
+  %("ansible-playbook", "-i", s"${inventory(stackName)}",  s"ansible/${file}")(pwd)

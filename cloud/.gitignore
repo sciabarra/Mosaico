@@ -1,5 +1,6 @@
 id_rsa
+id_rsa.pub
 old/
 conf/inventory
 *.inv
-
+*.retry

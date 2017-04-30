@@ -1,0 +1,4 @@
+- hosts: masters
+  become: yes
+  roles:
+    - docker-master
