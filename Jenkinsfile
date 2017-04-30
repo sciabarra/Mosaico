@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Build') { 
             steps { 
-                sh './sbt all/docker'
+                sh './sbt -Dprofile=register all/dockerBuildAndPush'
             }
         }
    }

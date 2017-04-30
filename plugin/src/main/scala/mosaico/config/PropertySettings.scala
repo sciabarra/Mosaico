@@ -27,7 +27,7 @@ trait PropertySettings extends FileUtils with MiscUtils {
     "properties",
     "local.properties") ++
     profile.map(x =>
-      s"mosaico.${x}.properties")
+      s"${x}.properties")
 
   lazy val prpTask = prp := {
     try {
@@ -38,6 +38,7 @@ trait PropertySettings extends FileUtils with MiscUtils {
         prpName = s"${prpPrefix}.${prpExt}"
         prpFile = prpDir / prpName
       } yield {
+        println(s"looking for ${prpFile.getName}")
         if (prpFile.exists) {
           prp.load(new java.io.FileInputStream(prpFile))
           val filename = prpFile.getAbsolutePath
