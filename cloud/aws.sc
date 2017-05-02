@@ -67,13 +67,19 @@ import scala.io._
   ec2stop(instancesInStack(stackName).map(_.id): _*)
 }
 
-@main def swarm(stackName: String, master: String, nodes: Seq[String]) {
+@main def ansible(stackName: String, file:String="site.yml"): Unit =
+  %("ansible-playbook", "-i", s"${inventory(stackName)}",  s"ansible/${file}")(pwd)
+
+@main def swarm(stackName: String, master: String="master", nodes: Seq[String]=Seq("node1","node2")) {
   exec("sudo docker swarm leave --force")(stackName, master)
   val res = execMap("sudo docker swarm init")(stackName, master)
   val out = res(master).get.out.lines
   val cmd = "sudo docker swarm leave ; sudo " + out(4) + "\n" ++ out(5) + "\n" + out(6)
   exec(cmd)(stackName, nodes.mkString(","))
-}
+  exec("docker node ls")(stackName, master)
+  println("*** logging in docker for pushing ***")
+  exec("docker login -u register -p password register.loc:500")(stackName, master)
 
-@main def ansible(stackName: String, file:String="site.yml"): Unit =
-  %("ansible-playbook", "-i", s"${inventory(stackName)}",  s"ansible/${file}")(pwd)
+  println("*** jenkins password ***")
+  exec("cat /home/centos/.jenkins/secrets/initialAdminPassword")(stackName, master)
+}

@@ -3,17 +3,23 @@ services:
   spark-master:
     image: register.loc:500/spark:3
     ports:
-      - 8081:8080
+      - "8080:8080"
+    expose:
+      - "6066"
+      - "7077"
     networks:
       - spark-network
   spark-worker:
     image: register.loc:500/spark:3
     ports:
       - 8180:8180
+    expose:
+      - "6066"
+      - "7077"
     networks:
       - spark-network
     environment:
-      SPARK_MASTER: "spark-master"
+      SPARK_MASTER: "spark://spark-master:7077"
     deploy:
       replicas: 2
 networks:

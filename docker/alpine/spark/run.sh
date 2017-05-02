@@ -6,5 +6,5 @@ export SPARK_DIST_CLASSPATH=$(hadoop classpath)
 cd /usr/spark
 if test -z "$SPARK_MASTER"
 then exec bin/spark-class org.apache.spark.deploy.master.Master
-else exec bin/spark-class org.apache.spark.deploy.master.Worker "$SPARK_MASTER"
+else exec bin/spark-class org.apache.spark.deploy.worker.Worker "$SPARK_MASTER"
 fi

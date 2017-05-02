@@ -4,3 +4,4 @@ old/
 conf/inventory
 *.inv
 *.retry
+_*
