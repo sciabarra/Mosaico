@@ -1,6 +1,7 @@
 import $exec.lib.Ec2
 import $exec.lib.CloudFormation
 import $exec.lib.Ssh
+import $exec.lib.Docker
 import scala.io._
 
 @main def inventory(stackName: String) = {
@@ -82,4 +83,12 @@ import scala.io._
 
   println("*** jenkins password ***")
   exec("cat /home/centos/.jenkins/secrets/initialAdminPassword")(stackName, master)
+}
+
+@main def compose(stackName: String, file: String) {
+  dkCompose(file)(stackName -> "master")
+}
+
+@main def docker(stackName: String, host: String, args: String*) {
+  dkExec(args.mkString(" "))(stackName -> host)
 }

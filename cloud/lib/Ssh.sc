@@ -55,13 +55,13 @@ def scp(src: Path, dest: String)(implicit hosts: Tuple2[String,String]) = {
   for {
     ip <- ipsByName(hosts._1, hosts._2)
     exe = Seq("scp",
-        "-i", "id_rsa",
+        "-i", "id_rsa", "-q",
         "-o", "UserKnownHostsFile=/dev/null",
         "-o", "StrictHostKeyChecking=no",
         src.toIO.getAbsolutePath,
         s"${imageUser}@${ip}:${dest}")
   } {
-    println(exe)
+    //println(exe)
     scala.util.Try(%(exe)(pwd))
   }
 }
