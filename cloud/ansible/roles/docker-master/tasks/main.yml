@@ -32,3 +32,12 @@
     volumes:
       /info:/info
 
+- name: registry service
+  become: yes
+  template: src=registry.service dest=/etc/systemd/system/registry.service mode=644
+  notify:
+    - reload systemd
+
+- name: enabling registry
+  become: yes
+  service: name=registry state=started enabled=yes
