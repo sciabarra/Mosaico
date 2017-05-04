@@ -22,5 +22,11 @@ lazy val hadoop = project
 lazy val spark = project
   .enablePlugins(MosaicoDockerPlugin)
 
+lazy val cassandra = project
+  .enablePlugins(MosaicoDockerPlugin)
+
+lazy val zeppelin = project
+  .enablePlugins(MosaicoDockerPlugin)
+
 lazy val all = (project in file(".")).
-  aggregate(abuild, base, nginx, jdk8, python2, hadoop, spark)
+  aggregate(abuild, base, nginx, jdk8, python2, hadoop, spark, cassandra, zeppelin)

@@ -39,7 +39,7 @@ trait PropertySettings extends FileUtils with MiscUtils {
         prpFile = prpDir / prpName
       } yield {
         if (prpFile.exists) {
-          println(s"loading ${prpFile.getName}")
+          //print(s"loading ${prpFile.getName}")
           prp.load(new java.io.FileInputStream(prpFile))
           val filename = prpFile.getAbsolutePath
           trace("prp", s"loaded ${filename}")

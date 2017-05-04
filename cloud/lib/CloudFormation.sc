@@ -50,9 +50,8 @@ def cfStack(stackName: String) = {
 def cfStatusLoop(stackName: String):Unit = {
   val st = cfStack(stackName).map(_.getStackStatus)
   if(st.nonEmpty && st.get.endsWith("_IN_PROGRESS")) {
-    println(st.get)
+    print("*")
     Thread.sleep(1000)
     cfStatusLoop(stackName)
   }
 }
-

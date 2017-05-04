@@ -1,0 +1,16 @@
+version: '3'
+networks:
+  spark-network:
+services:
+  cassandra-master:
+    image: register.loc:500/cassandra:3
+    networks:
+      - spark-network
+  cassandra-worker:
+    image: register.loc:500/cassandra:3
+    networks:
+      - spark-network
+    environment:
+      CASSANDRA_MASTER: "cassandra-master"
+    deploy:
+      replicas: 2
