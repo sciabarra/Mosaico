@@ -19,7 +19,8 @@ def cfCreateRequest(stackName: String) = {
   val params =  Seq(
     new Parameter().withParameterKey("KeyName").withParameterValue(keyName),
     new Parameter().withParameterKey("InstanceType").withParameterValue(instanceType),
-    new Parameter().withParameterKey("ImageId").withParameterValue(imageId)
+    new Parameter().withParameterKey("ImageId").withParameterValue(imageId),
+    new Parameter().withParameterKey("VolumeSize").withParameterValue(volumeSize.toString)
   )
   cfr.setParameters(params.asJava)
   cfr

@@ -17,6 +17,11 @@ Parameters:
     Type: String
     Default: 'ami-ae7bfdb8'
     ConstraintDescription: must be the name of an existing image
+  VolumeSize:
+    Description: Size of Volume
+    Type: Number
+    Default: 16
+    ConstraintDescription: must be an integer
 Resources:
   VPC:
     Type: 'AWS::EC2::VPC'
@@ -125,6 +130,11 @@ Resources:
           DeleteOnTermination: 'true'
           SubnetId: !Ref Subnet
           PrivateIpAddress: 10.0.0.5
+      BlockDeviceMappings:
+        - DeviceName: /dev/sda1
+          Ebs:
+            VolumeSize: !Ref VolumeSize
+            DeleteOnTermination: true
   Node1Instance:
     Type: 'AWS::EC2::Instance'
     DependsOn: AttachGateway
@@ -145,6 +155,11 @@ Resources:
           DeleteOnTermination: 'true'
           SubnetId: !Ref Subnet
           PrivateIpAddress: 10.0.0.6
+      BlockDeviceMappings:
+        - DeviceName: /dev/sda1
+          Ebs:
+            VolumeSize: !Ref VolumeSize
+            DeleteOnTermination: true
   Node2Instance:
     Type: 'AWS::EC2::Instance'
     DependsOn: AttachGateway
@@ -165,5 +180,8 @@ Resources:
           DeleteOnTermination: 'true'
           SubnetId: !Ref Subnet
           PrivateIpAddress: 10.0.0.7
-
-
+      BlockDeviceMappings:
+        - DeviceName: /dev/sda1
+          Ebs:
+            VolumeSize: !Ref VolumeSize
+            DeleteOnTermination: true

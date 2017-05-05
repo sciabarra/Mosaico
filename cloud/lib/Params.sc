@@ -10,8 +10,8 @@
  val keyName = "atomic"
  /// the user used by the centos image
  val imageUser = "centos"
+ /// the user used by the centos image
+ val volumeSize = 16
  /// location of the cloudformation template
  import ammonite.ops._
  val template = pwd/'conf/"cloudformation.yml"
-
-
