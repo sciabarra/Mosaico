@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Build') { 
             steps { 
-                sh './sbt -Dprofile=register all/dockerBuildAndPush'
+	      sh 'docker login -u register -p password register.loc:500 && ./sbt base/dockerBuildAndPush'
             }
         }
    }

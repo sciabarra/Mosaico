@@ -80,7 +80,6 @@ import scala.io._
   exec("docker node ls")(stackName, master)
   println("*** logging in docker for pushing ***")
   exec("docker login -u register -p password register.loc:500")(stackName, master)
-
   println("*** jenkins password ***")
   exec("cat /home/centos/.jenkins/secrets/initialAdminPassword")(stackName, master)
 }

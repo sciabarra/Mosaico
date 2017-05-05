@@ -1,7 +1,8 @@
-version: '3'
-networks:
-  spark-network:
-services:
+
+ version: '3'
+ networks:
+   spark-network:
+ services:
   spark-master:
     image: register.loc:500/spark:3
     ports:
@@ -26,4 +27,7 @@ services:
       - spark-network
     environment:
       SPARK_MASTER: "spark://spark-master:7077"
+
+
+
       CASSANDRA_MASTER: "cassandra-master"
