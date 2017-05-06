@@ -1,8 +1,5 @@
-
- version: '3'
- networks:
-   spark-network:
- services:
+version: '3'
+services:
   spark-master:
     image: register.loc:500/spark:3
     ports:
@@ -20,14 +17,12 @@
     deploy:
       replicas: 2
   zeppelin:
-    image: register.loc:500/zeppelin:3
+    image: register.loc:500/zeppelin:4
     ports:
-          - "8082:8080"
+      - "8082:8080"
     networks:
       - spark-network
     environment:
       SPARK_MASTER: "spark://spark-master:7077"
-
-
-
-      CASSANDRA_MASTER: "cassandra-master"
+networks:
+   spark-network:
