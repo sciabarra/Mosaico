@@ -30,7 +30,7 @@
   lineinfile:
     create: yes
     dest: /etc/sysconfig/docker
-    line: 'DOCKER_OPTS="--insecure-registry registry.loc:500"'
+    line: 'DOCKER_OPTS="--insecure-registry registry.loc:500" --dns 8.8.8.8'
   notify:
     - restart docker
 
