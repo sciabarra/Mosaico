@@ -39,6 +39,14 @@ import scala.io._
   cfStatusLoop(stackName)
 }
 
+@main def start(stackName: String) = {
+  ec2start(instancesInStack(stackName, false).map(_.id): _*)
+}
+
+@main def stop(stackName: String) = {
+  ec2stop(instancesInStack(stackName).map(_.id): _*)
+}
+
 @main def list(stackName: String) = {
   val instances = instancesInStack(stackName, false)
   println("ID\t\t\tNAME\tSTATE\tPRIVIP\t\tPUBIP")
@@ -60,13 +68,6 @@ import scala.io._
   }
 }
 
-@main def start(stackName: String) = {
-  ec2start(instancesInStack(stackName, false).map(_.id): _*)
-}
-
-@main def stop(stackName: String) = {
-  ec2stop(instancesInStack(stackName).map(_.id): _*)
-}
 
 @main def ansible(stackName: String, file:String="site.yml"): Unit =
   %("ansible-playbook", "-i", s"${inventory(stackName)}",  s"ansible/${file}")(pwd)
@@ -90,4 +91,10 @@ import scala.io._
 
 @main def docker(stackName: String, host: String, args: String*) {
   dkExec(args.mkString(" "))(stackName -> host)
+}
+
+@main def build(stackName: String): Unit = {
+  create(stackName)
+  ansible(stackName)
+  swarm(stackName)
 }
