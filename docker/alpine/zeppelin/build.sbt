@@ -11,6 +11,10 @@ dockerfile in docker := {
     from((docker in spark).value.toString)
     add(base / "run.sh", "/services/zeppelin/run")
     add(base / "zeppelin.tgz", "/usr")
-    runRaw("ln -sf /usr/zeppelin-* /usr/zeppelin ; chmod +x /services/zeppelin/run")
+    runRaw(
+      """|ln -sf /usr/zeppelin-* /usr/zeppelin ;
+         |rm /services/spark/run ;
+         |chmod +x /services/zeppelin/run
+         |""".stripMargin.replace('\n', ' '))
   }
 }
