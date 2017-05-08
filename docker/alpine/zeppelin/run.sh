@@ -8,6 +8,7 @@ echo export SPARK_HOME=/usr/spark >$CONF
 echo export HADOOP_HOME=/usr/hadoop >>$CONF
 echo export PATH=$HADOOP_HOME/bin:$SPARK_HOME/bin:$PATH >>$CONF
 echo export SPARK_DIST_CLASSPATH=$(/usr/hadoop/bin/hadoop classpath) >>$CONF
+chmod +x $CONF
 if test -n "$SPARK_MASTER"
 then echo "export MASTER=$SPARK_MASTER" >>$CONF
 fi
