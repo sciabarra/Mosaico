@@ -13,7 +13,7 @@ dockerfile in docker := {
     add(base / "zeppelin.tgz", "/usr")
     runRaw(
       """|ln -sf /usr/zeppelin-* /usr/zeppelin ;
-         |rm /services/spark/run ;
+         |rm -Rf /services/spark ;
          |chmod +x /services/zeppelin/run
          |""".stripMargin.replace('\n', ' '))
   }
