@@ -3,14 +3,17 @@
 if ! grep 8.8.8.8 /etc/resolv.conf
 then echo "nameserver 8.8.8.8" | sudo tee -a /etc/resolv.conf
 fi
-CONF=/usr/zeppelin/conf/zeppelin-env.sh
-echo export SPARK_HOME=/usr/spark >$CONF
-echo export HADOOP_HOME=/usr/hadoop >>$CONF
-echo export PATH=$HADOOP_HOME/bin:$SPARK_HOME/bin:$PATH >>$CONF
-echo export SPARK_DIST_CLASSPATH=$(/usr/hadoop/bin/hadoop classpath) >>$CONF
-chmod +x $CONF
-if test -n "$SPARK_MASTER"
-then echo "export MASTER=$SPARK_MASTER" >>$CONF
-fi
+CFG=/usr/zeppelin/conf/zeppelin-env.sh
+echo "*** zeppelin-env ***"
+env \
+  MASTER="${SPARK_MASTER:-local[*]}" \
+  SPARK_HOME=/usr/spark \
+  HADOOP_HOME=/usr/hadoop \
+  PATH="$HADOOP_HOME/bin:$SPARK_HOME/bin:$PATH" \
+  SPARK_DIST_CLASSPATH=$(/usr/hadoop/bin/hadoop classpath) \
+ | sed -E -e 's/"/\\\"/g' -e 's/^(\w+)=/export \1="/' -e 's/$/"/' \
+ | tee $CFG
+chmod +x $CFG
+echo "*** zeppelin ***"
 cd /usr/zeppelin
 /usr/zeppelin/bin/zeppelin.sh

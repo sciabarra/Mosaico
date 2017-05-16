@@ -10,6 +10,12 @@ A starter kit for building a Scala Cloud in AWS.
 - Ammonite Scripts for configuration and management
 - SBT for building a collection of Docker images
 
+Documentation is currently work in progress.
+
+Check [this presentation](https://www.slideshare.net/MicheleSciabarr/devops-for-scala-75961434) on SlideShare.
+
+
+
 
 
 

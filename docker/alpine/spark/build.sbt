@@ -16,8 +16,9 @@ prpLookup += baseDirectory.value.getParentFile -> "alpine"
       from((docker in hadoop).value.toString)
       add(base/"run.sh", "/services/spark/run")
       add(base/"spark.tgz", "/usr")
+      add(base/"spark-shell.sh", "/usr/bin/spark-shell")
       runRaw("ln -sf /usr/spark-* /usr/spark " +
-        "; chmod +x /usr/spark/bin/* /usr/spark/sbin/* /services/spark/run")
+        "; chmod +x /usr/spark/bin/* /usr/spark/sbin/* /services/spark/run /usr/bin/spark-shell")
       add(base/"slf4j-api.jar", "/usr/spark/jars")
     }
   }

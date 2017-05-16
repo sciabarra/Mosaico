@@ -17,7 +17,7 @@ dockerfile in docker := {
     copy(apk, "/tmp/")
     runRaw(
       s"""|apk update ;
-          |apk add git curl sudo bash augeas ;
+          |apk add sed git curl sudo bash augeas ;
           |apk add --allow-untrusted /tmp/*.apk ;
           |rm /tmp/*.apk ;
           |""".stripMargin.replace('\n', ' '))

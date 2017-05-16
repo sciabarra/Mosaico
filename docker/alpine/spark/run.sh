@@ -3,15 +3,20 @@
 if ! grep 8.8.8.8 /etc/resolv.conf
 then echo "nameserver 8.8.8.8" | sudo tee -a /etc/resolv.conf
 fi
-export CONF=/usr/spark/conf/spark-env.sh
-echo export SPARK_HOME=/usr/spark >$CONF
-echo export HADOOP_HOME=/usr/hadoop >>$CONF
-echo export PATH=\"/usr/hadoop/bin:/usr/spark/bin:$PATH\" >>$CONF
-echo export SPARK_DIST_CLASSPATH=\"$(/usr/hadoop/bin/hadoop classpath)\" >>$CONF
-echo export SPARK_DAEMON_MEMORY=1000m >>$CONF
-echo export SPARK_WORKER_MEMORY=1000m >>$CONF
-chmod +x $CONF
+# configure env for spark
+CFG=/usr/spark/conf/spark-env.sh
+echo "*** spark-env ***"
+env \
+ SPARK_HOME=/usr/spark \
+ HADOOP_HOME=/usr/hadoop \
+ PATH="/usr/hadoop/bin:/usr/spark/bin:$PATH" \
+ SPARK_DIST_CLASSPATH="$(/usr/hadoop/bin/hadoop classpath)" \
+ | sed -E -e 's/"/\\\"/g' -e 's/^(\w+)=/export \1="/' -e 's/$/"/' \
+ | tee $CFG
+chmod +x $CFG
+echo "*** spark ***"
 cd /usr/spark
+mkdir logs
 if test -z "$SPARK_MASTER"
 then exec bin/spark-class org.apache.spark.deploy.master.Master
 else exec bin/spark-class org.apache.spark.deploy.worker.Worker "$SPARK_MASTER"

@@ -2,12 +2,15 @@ prpLookup += baseDirectory.value.getParentFile -> "alpine"
 
 imageNames in docker := Seq(ImageName(prp.value("python2")))
 
-val base = (project in file("..")/"base").enablePlugins(MosaicoDockerPlugin)
+val base = (project in file("..") / "base")
+  .enablePlugins(MosaicoDockerPlugin)
 
 dockerfile in docker := {
   (docker in base).value
+
   val apk =
-    alpineBuild.toTask(" @abuild uwsgi.sh uwsgi.apk").value
+    alpineBuild.toTask(
+      " @abuild uwsgi.sh uwsgi.apk").value
 
   new Dockerfile {
     from(prp.value("base"))

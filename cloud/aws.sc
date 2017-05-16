@@ -34,6 +34,17 @@ import scala.io._
   inventory(stackName)
 }
 
+@main def update(stackName: String) = {
+  val cfr = cfUpdateRequest(stackName)
+  val body = Source.fromFile(template.toString).getLines.mkString("\n")
+  cfr.setTemplateBody(body)
+  // run request
+  cf.updateStack(cfr)
+  cfStatusLoop(stackName)
+  inventory(stackName)
+}
+
+
 @main def delete(stackName: String) = {
   cf.deleteStack(cfDeleteRequest(stackName))
   cfStatusLoop(stackName)
@@ -72,17 +83,9 @@ import scala.io._
 @main def ansible(stackName: String, file:String="site.yml"): Unit =
   %("ansible-playbook", "-i", s"${inventory(stackName)}",  s"ansible/${file}")(pwd)
 
-@main def swarm(stackName: String, master: String="master", nodes: Seq[String]=Seq("node1","node2")) {
-  exec("sudo docker swarm leave --force")(stackName, master)
-  val res = execMap("sudo docker swarm init")(stackName, master)
-  val out = res(master).get.out.lines
-  val cmd = "sudo docker swarm leave ; sudo " + out(4) + "\n" ++ out(5) + "\n" + out(6)
-  exec(cmd)(stackName, nodes.mkString(","))
-  exec("docker node ls")(stackName, master)
-  println("*** logging in docker for pushing ***")
-  exec("docker login -u register -p password register.loc:500")(stackName, master)
-  println("*** jenkins password ***")
-  exec("cat /home/centos/.jenkins/secrets/initialAdminPassword")(stackName, master)
+@main def swarm(stackName: String) {
+  dkSwarm(stackName)
+  jenkinsPasswd(stackName)
 }
 
 @main def compose(stackName: String, file: String) {

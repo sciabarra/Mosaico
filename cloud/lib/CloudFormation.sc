@@ -26,6 +26,21 @@ def cfCreateRequest(stackName: String) = {
   cfr
 }
 
+def cfUpdateRequest(stackName: String) = {
+  import com.amazonaws.services.cloudformation._
+  import com.amazonaws.services.cloudformation.model._
+  val cfr = new UpdateStackRequest()
+  cfr.setStackName(stackName)
+  val params =  Seq(
+    new Parameter().withParameterKey("KeyName").withParameterValue(keyName),
+    new Parameter().withParameterKey("InstanceType").withParameterValue(instanceType),
+    new Parameter().withParameterKey("ImageId").withParameterValue(imageId),
+    new Parameter().withParameterKey("VolumeSize").withParameterValue(volumeSize.toString)
+  )
+  cfr.setParameters(params.asJava)
+  cfr
+}
+
 def cfDeleteRequest(stackName: String) = {
   new DeleteStackRequest().withStackName(stackName)
 }
