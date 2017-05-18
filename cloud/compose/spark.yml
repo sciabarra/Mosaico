@@ -21,14 +21,14 @@ services:
     environment:
       SPARK_MASTER: "spark://spark-master:7077"
       SPARK_WORKER_MEMORY: "1g"
-      SPARK_WORKER_CORES: 2
+      SPARK_WORKER_CORES: 1
     deploy:
       replicas: 1
       resources:
         limits:
-          memory: 1g
+          memory: "1g"
         reservations:
-          memory: 1g
+          memory: "1g"
   spark-worker2:
     image: register.loc:500/spark:3
     ports:
@@ -37,15 +37,15 @@ services:
       - spark-network
     environment:
       SPARK_MASTER: "spark://spark-master:7077"
-      SPARK_WORKER_MEMORY: 1g
-      SPARK_WORKER_CORES: 2
+      SPARK_WORKER_MEMORY: "500m"
+      SPARK_WORKER_CORES: 1
     deploy:
       replicas: 1
       resources:
         limits:
-          memory: 1g
+          memory: "1g"
         reservations:
-          memory: 1g
+          memory: "1g"
   zeppelin:
     image: register.loc:500/zeppelin:4
     ports:
