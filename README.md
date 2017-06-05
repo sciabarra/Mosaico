@@ -1,6 +1,6 @@
 # Mosaico 
 
-by [Michele Sciabarra](http://michele.sciabarra.com)
+by [Michele Sciabarra](http://michele.sciabarra.com) and [Sciabarra.com](http://sciabarra.com)
 
 A starter kit for building a Scala Cloud in AWS.
 
@@ -13,6 +13,8 @@ A starter kit for building a Scala Cloud in AWS.
 Documentation is currently work in progress.
 
 Check [this presentation](https://www.slideshare.net/MicheleSciabarr/devops-for-scala-75961434) on SlideShare.
+
+Also a [conference video](https://vimeo.com/217869712) is available.
 
 
 
