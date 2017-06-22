@@ -1,8 +1,11 @@
+import $exec.lib.Params
 import $exec.lib.Ec2
 import $exec.lib.CloudFormation
 import $exec.lib.Ssh
 import $exec.lib.Docker
 import scala.io._
+
+
 
 @main def inventory(stackName: String) = {
   val filtered = instancesInStack(stackName)

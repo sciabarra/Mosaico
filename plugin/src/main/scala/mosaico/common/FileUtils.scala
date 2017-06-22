@@ -67,7 +67,6 @@ trait FileUtils {
     sb.toString
   }
 
-
   /**
     * Write a whole file
     *

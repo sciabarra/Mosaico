@@ -5,3 +5,6 @@ conf/inventory
 *.inv
 *.retry
 _*
+session
+history
+cache/
