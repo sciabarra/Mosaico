@@ -1,4 +1,8 @@
-# Conventions for the Docker Images
+# Images 
+
+![hierarchy](hierarchy.png)
+
+## Conventions for the Docker Images
 
 The images use the following conventins and paths:
 
@@ -13,3 +17,7 @@ Standard for paths inside the images:
 - `/var/<app>` for app data
 - `/service/<app>` for run script
 
+## In depth
+
+- [Base](base.md)
+- [Python](python.md)

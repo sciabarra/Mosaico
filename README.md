@@ -2,6 +2,10 @@
 
 by [Michele Sciabarra](http://michele.sciabarra.com)
 
+[Documentation](docs/index.md) is here
+
+## What is this?
+
 A starter kit for building a Scala Cloud in AWS.
 
 - AWS Cloud Formation for creating the cloud
@@ -10,9 +14,14 @@ A starter kit for building a Scala Cloud in AWS.
 - Ammonite Scripts for configuration and management
 - SBT for building a collection of Docker images
 
-Documentation is currently work in progress.
+## In the wild
 
-Check [this presentation](https://www.slideshare.net/MicheleSciabarr/devops-for-scala-75961434) on SlideShare.
+External resources
+
+-  [A presentation](https://www.slideshare.net/MicheleSciabarr/devops-for-scala-75961434) on SlideShare.
+-  A [conference video](https://vimeo.com/217869712) on Vimeo.
+ 
+
 
 
 
