@@ -1,0 +1,228 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: >-
+  This template creates a single server installation of Active Directory. Domain
+  Administrator password will be the one retrieved from the instance. For adding
+  members to the domain, ensure that they are launched in domain member security
+  group created by this template and then configure them to use this instance's
+  private IP as the DNS server. **WARNING** This template creates Amazon EC2
+  Windows instance and related resources. You will be billed for the AWS
+  resources used if you create a stack from this template.
+Parameters:
+  InstanceTypeServer:
+    Description: EC2 instance type
+    Type: String
+    Default: t2.small
+    ConstraintDescription: must be a valid EC2 instance type.
+  VolumeSizeServer:
+    Description: Size of Volume
+    Type: Number
+    Default: 50
+    ConstraintDescription: must be an integer
+  InstanceTypeClient:
+    Description: EC2 instance type
+    Type: String
+    Default: t2.micro
+    ConstraintDescription: must be a valid EC2 instance type.
+  VolumeSizeClient:
+    Description: Size of Volume
+    Type: Number
+    Default: 30
+    ConstraintDescription: must be an integer
+  KeyName:
+    Description: Name of an existing EC2 KeyPair to enable SSH access to the instance
+    Type: 'AWS::EC2::KeyPair::KeyName'
+    Default: atomic
+    ConstraintDescription: must be the name of an existing EC2 KeyPair.
+  ImageId:
+    Description: Name of an image id
+    Type: String
+    Default: 'ami-b36b1da5'
+    ConstraintDescription: must be the name of an existing image
+Resources:
+  VPC:
+    Type: 'AWS::EC2::VPC'
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags:
+        - Key: Application
+          Value: !Ref 'AWS::StackId'
+  Subnet:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: 10.0.0.0/24
+      Tags:
+        - Key: Application
+          Value: !Ref 'AWS::StackId'
+  InternetGateway:
+    Type: 'AWS::EC2::InternetGateway'
+    Properties:
+      Tags:
+        - Key: Application
+          Value: !Ref 'AWS::StackId'
+  AttachGateway:
+    Type: 'AWS::EC2::VPCGatewayAttachment'
+    Properties:
+      VpcId: !Ref VPC
+      InternetGatewayId: !Ref InternetGateway
+  RouteTable:
+    Type: 'AWS::EC2::RouteTable'
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Application
+          Value: !Ref 'AWS::StackId'
+  Route:
+    Type: 'AWS::EC2::Route'
+    DependsOn: AttachGateway
+    Properties:
+      RouteTableId: !Ref RouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+  SubnetRouteTableAssociation:
+    Type: 'AWS::EC2::SubnetRouteTableAssociation'
+    Properties:
+      SubnetId: !Ref Subnet
+      RouteTableId: !Ref RouteTable
+  IPAddress:
+    Type: 'AWS::EC2::EIP'
+    DependsOn: AttachGateway
+    Properties:
+      Domain: vpc
+      InstanceId: !Ref MasterInstance
+  InstanceSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: Domain Controller
+      SecurityGroupIngress:
+        - IpProtocol: udp
+          FromPort: '123'
+          ToPort: '123'
+          CidrIp: 10.0.0.0/8
+        - IpProtocol: tcp
+          FromPort: '135'
+          ToPort: '135'
+          CidrIp: 10.0.0.0/8
+        - IpProtocol: udp
+          FromPort: '138'
+          ToPort: '138'
+          CidrIp: 10.0.0.0/8
+        - IpProtocol: tcp
+          FromPort: '1024'
+          ToPort: '65535'
+          CidrIp: 10.0.0.0/8
+        - IpProtocol: tcp
+          FromPort: '389'
+          ToPort: '389'
+          CidrIp: 10.0.0.0/8
+        - IpProtocol: udp
+          FromPort: '389'
+          ToPort: '389'
+          CidrIp: 10.0.0.0/8
+        - IpProtocol: tcp
+          FromPort: '636'
+          ToPort: '636'
+          CidrIp: 10.0.0.0/8
+        - IpProtocol: tcp
+          FromPort: '3268'
+          ToPort: '3268'
+          CidrIp: 10.0.0.0/8
+        - IpProtocol: tcp
+          FromPort: '3269'
+          ToPort: '3269'
+          CidrIp: 10.0.0.0/8
+        - IpProtocol: tcp
+          FromPort: '53'
+          ToPort: '53'
+          CidrIp: 10.0.0.0/8
+        - IpProtocol: udp
+          FromPort: '53'
+          ToPort: '53'
+          CidrIp: 10.0.0.0/8
+        - IpProtocol: tcp
+          FromPort: '88'
+          ToPort: '88'
+          CidrIp: 10.0.0.0/8
+        - IpProtocol: udp
+          FromPort: '88'
+          ToPort: '88'
+          CidrIp: 10.0.0.0/8
+        - IpProtocol: tcp
+          FromPort: '445'
+          ToPort: '445'
+          CidrIp: 10.0.0.0/8
+        - IpProtocol: udp
+          FromPort: '445'
+          ToPort: '445'
+          CidrIp: 10.0.0.0/8
+        - IpProtocol: udp
+          FromPort: '135'
+          ToPort: '135'
+          CidrIp: 10.0.0.0/8
+        - IpProtocol: icmp
+          FromPort: '-1'
+          ToPort: '-1'
+          CidrIp: 10.0.0.0/8
+        - IpProtocol: tcp
+          FromPort: '3389'
+          ToPort: '3389'
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '5985'
+          ToPort: '5986'
+          CidrIp: 0.0.0.0/0
+      VpcId: !Ref VPC
+  MasterInstance:
+    Type: 'AWS::EC2::Instance'
+    DependsOn: VPC
+    Properties:
+      ImageId: !Ref ImageId
+      InstanceType: !Ref InstanceTypeServer
+      KeyName: !Ref KeyName
+      Tags:
+        - Key: Application
+          Value: !Ref 'AWS::StackId'
+        - Key: Name
+          Value: 'master'
+      NetworkInterfaces:
+        - GroupSet:
+            - !Ref InstanceSecurityGroup
+          AssociatePublicIpAddress: 'true'
+          DeviceIndex: '0'
+          DeleteOnTermination: 'true'
+          SubnetId: !Ref Subnet
+          PrivateIpAddress: 10.0.0.10
+      BlockDeviceMappings:
+        - DeviceName: /dev/sda1
+          Ebs:
+            VolumeSize: !Ref VolumeSizeServer
+            DeleteOnTermination: true
+      UserData: !Base64 '<powershell>Invoke-WebRequest https://raw.githubusercontent.com/ansible/ansible/devel/examples/scripts/ConfigureRemotingForAnsible.ps1 -OutFile c:\ansible.ps1 ; Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force ; Invoke-Expression c:\ansible.ps1</powershell>'
+  Node1Instance:
+    Type: 'AWS::EC2::Instance'
+    DependsOn: VPC
+    Properties:
+      ImageId: !Ref ImageId
+      InstanceType: !Ref InstanceTypeClient
+      KeyName: !Ref KeyName
+      Tags:
+        - Key: Application
+          Value: !Ref 'AWS::StackId'
+        - Key: Name
+          Value: 'client1'
+      NetworkInterfaces:
+        - GroupSet:
+            - !Ref InstanceSecurityGroup
+          AssociatePublicIpAddress: 'true'
+          DeviceIndex: '0'
+          DeleteOnTermination: 'true'
+          SubnetId: !Ref Subnet
+          PrivateIpAddress: 10.0.0.11
+      BlockDeviceMappings:
+        - DeviceName: /dev/sda1
+          Ebs:
+            VolumeSize: !Ref VolumeSizeClient
+            DeleteOnTermination: true
+      UserData: !Base64 '<powershell>Invoke-WebRequest https://raw.githubusercontent.com/ansible/ansible/devel/examples/scripts/ConfigureRemotingForAnsible.ps1 -OutFile c:\ansible.ps1 ; Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force ; Invoke-Expression c:\ansible.ps1</powershell>'

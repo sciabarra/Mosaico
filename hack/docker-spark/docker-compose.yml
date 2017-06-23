@@ -1,0 +1,76 @@
+version: '3'
+networks:
+  spark-network:
+services:
+  spark-master:
+    image: gettyimages/spark
+    command: bin/spark-class org.apache.spark.deploy.master.Master -h spark-master
+    environment:
+      SPARK_CONF_DIR: /conf
+    networks:
+      - spark-network
+    expose:
+      - 7001
+      - 7002
+      - 7003
+      - 7004
+      - 7005
+      - 7006
+      - 7077
+      - 6066
+    ports:
+      - 4040:4040
+      - 6066:6066
+      - 7077:7077
+      - 8082:8080
+    volumes:
+      - ./conf/master:/conf
+      - ./data:/tmp/datas
+  spark-worker:
+    image: gettyimages/spark
+    command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
+    environment:
+      SPARK_CONF_DIR: /conf
+      SPARK_WORKER_CORES: 2
+      SPARK_WORKER_MEMORY: 1g
+      SPARK_WORKER_PORT: 8881
+      SPARK_WORKER_WEBUI_PORT: 8081
+      MASTER: spark://spark-master:7077
+    expose:
+      - 7012
+      - 7013
+      - 7014
+      - 7015
+      - 7016
+      - 8881
+    networks:
+      - spark-network
+    ports:
+      - 8083:8081
+    volumes:
+      - ./conf/worker:/conf
+      - ./data:/tmp/data
+  spark-worker2:
+    image: gettyimages/spark
+    command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
+    environment:
+      SPARK_CONF_DIR: /conf
+      SPARK_WORKER_CORES: 2
+      SPARK_WORKER_MEMORY: 1g
+      SPARK_WORKER_PORT: 8881
+      SPARK_WORKER_WEBUI_PORT: 8081
+      MASTER: spark://spark-master:7077
+    expose:
+      - 7012
+      - 7013
+      - 7014
+      - 7015
+      - 7016
+      - 8881
+    networks:
+      - spark-network
+    ports:
+      - 8084:8081
+    volumes:
+      - ./conf/worker:/conf
+      - ./data:/tmp/data
