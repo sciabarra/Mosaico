@@ -2,6 +2,7 @@
 
 (work in progress...)
 
+- [command line interface](cli.md)
 
 ## In depth
 
