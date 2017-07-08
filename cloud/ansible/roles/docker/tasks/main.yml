@@ -1,14 +1,19 @@
 ---
+- name: upgrade all packages
+  yum:
+    name: '*'
+    state: latest
+
+- name: install yum utils
+  yum:
+    name: 'yum-utils'
+    state: present
+
 - name: add docker repo
   shell: |
      yum-config-manager --add-repo \
         https://download.docker.com/linux/centos/docker-ce.repo \
      && yum update -y && touch /etc/yum-update.done
-
-- name: upgrade all packages
-  yum:
-    name: '*'
-    state: latest
 
 - name: install docker
   yum:
@@ -47,5 +52,3 @@
 - template: src=ca.crt dest=/etc/pki/ca-trust/source/anchors/register.loc.crt
   notify:
     - update ca trust
-
-

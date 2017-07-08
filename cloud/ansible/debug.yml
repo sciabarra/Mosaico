@@ -1,4 +1,5 @@
 - hosts: masters
   become: yes
+  strategy: debug
   roles:
-    - docker-master
+    - test

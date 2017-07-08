@@ -1,3 +1,5 @@
+import ammonite.ops._
+
 case class Options(
                 dry: Boolean = false,
                 stack:String = "cluster",
@@ -41,4 +43,30 @@ val parser = new scopt.OptionParser[Options]("clu") {
 def create(hosts: Seq[String])(implicit opts: Options) = {
   println(s"stack: ${opts.stack}")
   println(s"""creating: ${hosts.mkString(",")}""")
+  if(!opts.dry) {
+      val inventory = Seq(
+        "[all:vars]",
+        s"master_public_ip=${hosts.head}",
+        s"master_private_ip=${hosts.head}") ++
+        Seq("[masters]", s"${hosts.head} local_ip=${hosts.head}") ++
+        Seq("[nodes]") ++
+        hosts.tail.map(t => s"${t} local_ip=${t}")
+
+    val inv = pwd / 'conf / s"${opts.stack}.inv"
+    rm ! inv
+    write(inv, inventory.mkString("\n"))
+    println("wrote " + inv)
+    inv.toString
+  }
 }
+
+val preInitialize = """
+ssh-copy-id id_rsa root@spark.sciabarra.net ;
+ssh root@spark.sciabarra.net "useradd centos ;
+mkdir /home/centos/.ssh ;
+cp /root/.ssh/authorized_keys /home/centos/.ssh ;
+chmod 0700 /home/centos/.ssh ;
+chmod 0600 /home/centos/.ssh/authorized_keys ;
+chown -Rvf centos /home/centos/.ssh/ ;
+echo -e 'centos\tALL=(ALL)\tNOPASSWD: ALL' >>/etc/sudoers
+"""
