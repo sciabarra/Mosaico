@@ -1,10 +1,17 @@
 import ammonite.ops._
+import $exec.lib.Ansible
 
 case class Options(
-                dry: Boolean = false,
-                stack:String = "cluster",
+                // operation to execute
                 op:String = "help",
-                hosts: Seq[String] = Seq.empty)
+                // dry run
+                dry: Boolean = false,
+                // stack name
+                stack:String = "cluster",
+                // hosts to create the  cluster
+                hosts: Seq[String] = Seq.empty,
+                // init script to initialize
+                init:String = "site.yml")
 
 implicit val defaults = Options()
 
@@ -20,13 +27,19 @@ val parser = new scopt.OptionParser[Options]("clu") {
     (x, c) => c.copy(stack=x)
   ).text(s"stack name, default: '${defaults.stack}'")
 
-  cmd("create").text("create is a command")
+  opt[String]('i', "init").action(
+    (x, c) => c.copy(stack=x)
+  ).text(s"init script, default: '${defaults.init}'")
+
+  cmd("create").text("create the cluster and initialize the inventory")
   .action( (_,c) => c.copy(op="create"))
   .children {
     arg[String]("<hosts>...").unbounded().action {
       (x,c) => c.copy(hosts = c.hosts :+ x)
     }
   }
+  cmd("init").text("initialize the cluster")
+   .action( (_,c) => c.copy(op="init"))
   help("help").text("this text")
 }
 
@@ -35,6 +48,7 @@ val parser = new scopt.OptionParser[Options]("clu") {
     opts =>
      opts.op match {
        case "create" => create(opts.hosts)(opts)
+       case "init" => ansible(opts.stack, opts.init)
        case _ => println("use --help for help")
      }
   }

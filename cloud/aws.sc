@@ -6,7 +6,6 @@ import $exec.lib.Docker
 import scala.io._
 
 
-
 @main def inventory(stackName: String) = {
   val filtered = instancesInStack(stackName)
   val master = filtered.filter(_.state == "running").filter(_.name.getOrElse("") == "master")
@@ -81,7 +80,6 @@ import scala.io._
     println(s"<<< ${res} >>>")
   }
 }
-
 
 @main def ansible(stackName: String, file:String="site.yml"): Unit =
   %("ansible-playbook", "-i", s"${inventory(stackName)}",  s"ansible/${file}")(pwd)
