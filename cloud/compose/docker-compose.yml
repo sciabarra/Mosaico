@@ -37,7 +37,7 @@ services:
       - spark-network
     environment:
       SPARK_MASTER: "spark://spark-master:7077"
-      SPARK_WORKER_MEMORY: "500m"
+      SPARK_WORKER_MEMORY: "1g"
       SPARK_WORKER_CORES: 1
     deploy:
       replicas: 1

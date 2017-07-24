@@ -1,6 +1,6 @@
 # Mosaico 
 
-by [Michele Sciabarra](http://michele.sciabarra.com)
+by [Michele Sciabarra](http://michele.sciabarra.com) and [Sciabarra.com](http://sciabarra.com)
 
 [Documentation](docs/index.md) is here
 
@@ -22,6 +22,8 @@ External resources
 -  A [conference video](https://vimeo.com/217869712) on Vimeo.
  
 
+
+Also a [conference video](https://vimeo.com/217869712) is available.
 
 
 
