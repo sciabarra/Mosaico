@@ -35,8 +35,8 @@ trait AlpineSettings extends MiscUtils {
       val inFile = base / "abuild" / in
       val out = args(2)
       val outFile = base / "target" / out
-      abuild.mkdirs
-      target.mkdirs
+      abuild.mkDirs
+      target.mkDirs
       val cmd =
         s"""docker run
            | -v ${abuild}:/home/abuild
