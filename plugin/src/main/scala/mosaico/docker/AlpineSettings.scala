@@ -29,8 +29,8 @@ trait AlpineSettings extends MiscUtils {
     } else {
       val base = baseDirectory.value
       val buildImage = args(0)
-      (base/"abuild").mkDirs
-      (base/"target").mkDirs
+      (base/"abuild").mkdirs
+      (base/"target").mkdirs
       val target = (base / "target").getAbsolutePath.replace('\\', '/') // damn windows!
       val abuild = (base / "abuild").getAbsolutePath.replace('\\', '/')
       val in = args(1)
