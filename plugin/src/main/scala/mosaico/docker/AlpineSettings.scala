@@ -29,14 +29,14 @@ trait AlpineSettings extends MiscUtils {
     } else {
       val base = baseDirectory.value
       val buildImage = args(0)
+      (base/"abuild").mkDirs
+      (base/"target").mkDirs
       val target = (base / "target").getAbsolutePath.replace('\\', '/') // damn windows!
       val abuild = (base / "abuild").getAbsolutePath.replace('\\', '/')
       val in = args(1)
       val inFile = base / "abuild" / in
       val out = args(2)
       val outFile = base / "target" / out
-      abuild.mkDirs
-      target.mkDirs
       val cmd =
         s"""docker run
            | -v ${abuild}:/home/abuild
