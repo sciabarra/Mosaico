@@ -39,10 +39,10 @@ trait AlpineSettings extends MiscUtils {
 
       val cmd =
         s"""docker run
-            | -v ${abuild}:/home/abuild
-            | -v ${target}:/home/packager/packages
-            | ${buildImage} ${in} ${out}
-            |""".stripMargin.replaceAll("[\\r\\n]", "")
+           | -v ${abuild}:/home/abuild
+           | -v ${target}:/home/target
+           | ${buildImage} ${in} ${out}
+           |""".stripMargin.replaceAll("[\\r\\n]", "")
 
       if (inFile.exists) {
         if (!outFile.exists) {
