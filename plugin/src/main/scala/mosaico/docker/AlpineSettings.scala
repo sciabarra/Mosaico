@@ -27,7 +27,6 @@ trait AlpineSettings extends MiscUtils {
       println("usage: alpineBuild {ALPINEBUILDIMAGE} {APKBUILD} {APKFILE}")
       Seq()
     } else {
-
       val base = baseDirectory.value
       val buildImage = args(0)
       val target = (base / "target").getAbsolutePath.replace('\\', '/') // damn windows!
@@ -36,7 +35,8 @@ trait AlpineSettings extends MiscUtils {
       val inFile = base / "abuild" / in
       val out = args(2)
       val outFile = base / "target" / out
-
+      abuild.mkdirs
+      target.mkdirs
       val cmd =
         s"""docker run
            | -v ${abuild}:/home/abuild
