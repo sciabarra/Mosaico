@@ -42,7 +42,7 @@
 - name: registry
   lineinfile:
     dest: /etc/hosts
-    line: '{{master_private_ip}} register.loc'
+    line: '{{master_private_ip | ipaddr}} register.loc'
 
 - file: path=/etc/docker/certs.d/register.loc:500 state=directory
 - template: src=ca.crt dest=/etc/docker/certs.d/register.loc:500/ca.crt

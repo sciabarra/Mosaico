@@ -57,14 +57,15 @@ val parser = new scopt.OptionParser[Options]("clu") {
 def create(hosts: Seq[String])(implicit opts: Options) = {
   println(s"stack: ${opts.stack}")
   println(s"""creating: ${hosts.mkString(",")}""")
+  def toIp(host: String) = java.net.InetAddress.getByName(host).getHostAddress
   if(!opts.dry) {
       val inventory = Seq(
         "[all:vars]",
-        s"master_public_ip=${hosts.head}",
-        s"master_private_ip=${hosts.head}") ++
-        Seq("[masters]", s"${hosts.head} local_ip=${hosts.head}") ++
+        s"master_public_ip=${toIp(hosts.head)}",
+        s"master_private_ip=${toIp(hosts.head)}") ++
+        Seq("[masters]", s"${hosts.head} local_ip=${toIp(hosts.head)}") ++
         Seq("[nodes]") ++
-        hosts.tail.map(t => s"${t} local_ip=${t}")
+        hosts.tail.map(t => s"${t} local_ip=${toIp(t)}")
 
     val inv = pwd / 'conf / s"${opts.stack}.inv"
     rm ! inv
