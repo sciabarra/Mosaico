@@ -16,5 +16,6 @@ dockerfile in docker := {
          |rm -Rf /services/spark ;
          |chmod +x /services/zeppelin/run
          |""".stripMargin.replace('\n', ' '))
+    add(base / "zeppelin-site.xml", "/usr/zeppelin/conf")    
   }
 }

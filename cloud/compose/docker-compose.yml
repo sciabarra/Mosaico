@@ -41,13 +41,13 @@ services:
       SPARK_WORKER_CORES: 1
     deploy:
       replicas: 1
-      resources:
+     cd resources:
         limits:
           memory: "1g"
         reservations:
           memory: "1g"
   zeppelin:
-    image: register.loc:500/zeppelin:4
+    image: register.loc:500/zeppelin:3
     ports:
       - "8081:8080"
       - "4040:4040"
