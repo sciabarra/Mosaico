@@ -21,5 +21,6 @@ prpLookup += baseDirectory.value.getParentFile -> "alpine"
         "; chmod +x /usr/spark/bin/* /usr/spark/sbin/* /services/spark/run /usr/bin/spark-shell")
       add(base/"slf4j-api.jar", "/usr/spark/jars")
       add(base/"spark-defaults.conf", "/usr/spark/conf")
+      runRaw("echo 'System.exit(0)' | /usr/bin/spark-shell")
     }
   }
